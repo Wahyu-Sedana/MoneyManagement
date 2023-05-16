@@ -2,18 +2,17 @@ package com.example.keuangan;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class ProfileActivity extends AppCompatActivity {
+public class SemuaKategori extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-
+        setContentView(R.layout.activity_semua_kategori);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override

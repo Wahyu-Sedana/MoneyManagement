@@ -6,20 +6,26 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.example.keuangan.databinding.ActivityHomeBinding;
 import com.example.keuangan.uiFragment.OverviewFragment;
 import com.example.keuangan.uiFragment.StatisticFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ActivityHomeBinding binding;
@@ -40,6 +46,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick(View v) {
                 setButtonActive(binding.btnPemasukan);
                 setButtonInactive(binding.btnPengeluaran);
+            }
+        });
+
+        binding.semuaKategori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, SemuaKategori.class));
             }
         });
 
@@ -65,6 +78,26 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         slideUpAnimation = AnimationUtils.loadAnimation(this, R.anim.slideup_animation);
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        setUpSpinner();
+    }
+
+    private void setUpSpinner() {
+        List<String> dataList = new ArrayList<>();
+        dataList.add("Data 1");
+        dataList.add("Data 2");
+        dataList.add("Data 3");
+        dataList.add("Data 4");
+        dataList.add("Data 5");
+        dataList.add("Data 6");
+        dataList.add("Data 7");
+        dataList.add("Data 8");
+        dataList.add("Data 9");
+        dataList.add("Data 10");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dataList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinner.setAdapter(adapter);
     }
 
     private void setButtonActive(Button button) {
@@ -99,10 +132,24 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         .setDuration(300)
                         .setListener(null);
 
-                binding.darkBackground.setOnClickListener(new View.OnClickListener() {
+                binding.darkBackground.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View v) {
-                        hideSlideUpLayout();
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // Mendapatkan koordinat klik
+                        float x = event.getRawX();
+                        float y = event.getRawY();
+
+                        // Mendapatkan posisi layout slide up
+                        int[] location = new int[2];
+                        binding.layoutSlideUp.getLocationOnScreen(location);
+                        int slideUpTop = location[1];
+                        int slideUpBottom = slideUpTop + binding.layoutSlideUp.getHeight();
+
+                        // Menutup slide up hanya jika klik diluar area layout slide up
+                        if (y < slideUpTop || y > slideUpBottom) {
+                            hideSlideUpLayout();
+                        }
+                        return false;
                     }
                 });
 
@@ -114,8 +161,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void hideSlideUpLayout() {
-        binding.fab.setVisibility(View.VISIBLE);
-
         // Menyembunyikan view latar belakang gelap
         binding.darkBackground.setVisibility(View.GONE);
 
@@ -128,6 +173,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         binding.layoutSlideUp.setVisibility(View.GONE);
+                        binding.fab.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -143,7 +189,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_statistic:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new StatisticFragment()).commit();
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 }
