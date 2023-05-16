@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int setTimeOut = 2000;
+        getSupportActionBar().hide();
+
+        int setTimeOut = 3000;
 
         new Handler().postDelayed(new Runnable() {
             @Override

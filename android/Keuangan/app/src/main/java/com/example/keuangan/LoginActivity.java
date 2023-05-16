@@ -28,13 +28,15 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValidate()){
-                    // jika form sudah diisi dengan benar
-                    Toast.makeText(getApplicationContext(), "Berhasil Login", Toast.LENGTH_LONG).show();
-                }else {
-                    // jika form belum disii dengan benar
-                    Toast.makeText(getApplicationContext(), "gagal Login", Toast.LENGTH_LONG).show();
-                }
+//                if(isValidate()){
+//                    // jika form sudah diisi dengan benar
+//                    Toast.makeText(getApplicationContext(), "Berhasil Login", Toast.LENGTH_LONG).show();
+//                }else {
+//                    // jika form belum disii dengan benar
+//                    Toast.makeText(getApplicationContext(), "gagal Login", Toast.LENGTH_LONG).show();
+//                }
+
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
         });
 
@@ -42,11 +44,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
             }
         });
     }
 
-    private boolean isValidate() {
+    private void loginUser() {
         boolean valid = true;
 
         TextInputEditText tvEmail = binding.lEmail;
@@ -72,6 +75,5 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        return valid;
     }
 }
