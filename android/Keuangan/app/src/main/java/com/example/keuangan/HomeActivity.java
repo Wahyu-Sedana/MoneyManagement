@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.example.keuangan.databinding.ActivityHomeBinding;
 import com.example.keuangan.uiFragment.OverviewFragment;
@@ -25,11 +27,13 @@ import com.example.keuangan.uiFragment.StatisticFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ActivityHomeBinding binding;
     private Animation slideUpAnimation;
+    private DatePickerDialog datePickerDialog;
     private boolean isSlideUpVisible = false;
 
     @Override
@@ -40,6 +44,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+
+        binding.tTanggal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
 
         binding.btnPemasukan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +91,28 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         setUpSpinner();
+    }
+
+    private void showDatePicker() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(HomeActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // Tangkap tanggal yang dipilih
+                        String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+
+                        // Tampilkan tanggal yang dipilih di EditText
+                        binding.tTanggal.setText(selectedDate);
+                    }
+                }, year, month, dayOfMonth);
+
+        // Tampilkan DatePickerDialog
+        datePickerDialog.show();
     }
 
     private void setUpSpinner() {

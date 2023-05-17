@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".uiFragment.StatisticFragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- CardView sebagai kontainer untuk tabel -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="16dp">
 
-</FrameLayout>
+        <!-- Tabel dengan 2 kolom -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2">
+
+            <!-- Kolom pertama: Total Pemasukan -->
+            <TextView
+                android:id="@+id/textViewPemasukan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Total Pemasukan"
+                android:textStyle="bold" />
+
+            <!-- Kolom kedua: Total Pengeluaran -->
+            <TextView
+                android:id="@+id/textViewPengeluaran"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Total Pengeluaran"
+                android:textStyle="bold" />
+
+            <!-- Tanggal Awal Bulan -->
+            <TextView
+                android:id="@+id/textViewTanggalAwal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Tanggal Awal"
+                android:layout_marginTop="16dp" />
+
+            <!-- Tanggal Akhir Bulan -->
+            <TextView
+                android:id="@+id/textViewTanggalAkhir"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Tanggal Akhir"
+                android:layout_marginTop="16dp" />
+
+        </GridLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Footer: Selisih Pemasukan dan Pengeluaran -->
+    <TextView
+        android:id="@+id/textViewSelisih"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selisih: "
+        android:gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

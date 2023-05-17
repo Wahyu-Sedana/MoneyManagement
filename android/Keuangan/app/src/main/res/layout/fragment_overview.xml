@@ -92,7 +92,7 @@
                         android:textSize="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp 2.000.000"/>
+                        android:text="Rp 0"/>
                 </LinearLayout>
 
                 <ImageView
@@ -129,7 +129,7 @@
                     android:textSize="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rp 1.000.000"/>
+                    android:text="Rp 0"/>
             </LinearLayout>
 
             <LinearLayout
@@ -156,7 +156,7 @@
                     android:textSize="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rp 1.000.000"/>
+                    android:text="Rp 0"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
