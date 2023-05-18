@@ -40,6 +40,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        binding.lForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
         binding.linkregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

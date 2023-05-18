@@ -63,7 +63,6 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:passwordToggleEnabled="true"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -7,4 +7,123 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
+  <LinearLayout
+      android:id="@+id/text_title"
+      android:layout_marginTop="20pt"
+      android:layout_marginEnd="10pt"
+      android:layout_marginStart="10pt"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:text="Profile"/>
+
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:id="@+id/componentRegister"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_marginTop="20pt"
+      android:layout_marginEnd="10pt"
+      android:layout_marginStart="10pt"
+      app:layout_constraintTop_toBottomOf="@+id/text_title"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/tUpdateNamaUsaha"
+          android:hint="nama usaha"
+          android:drawableEnd="@drawable/pencil"
+          android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/tUpdateEmail"
+          android:drawableEnd="@drawable/pencil"
+          android:hint="email"
+          android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/tUpdateAlamat"
+          android:drawableEnd="@drawable/pencil"
+          android:hint="alamat"
+          android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/tUpdatePasswordLama"
+          android:hint="password lama"
+          android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/tUpdatePasswordBaru"
+          android:hint="password baru"
+          android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_marginTop="23dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#3F51B5"
+        android:text="Simpan"
+        android:textColor="@color/white"/>
+  </LinearLayout>
+
   </androidx.constraintlayout.widget.ConstraintLayout>

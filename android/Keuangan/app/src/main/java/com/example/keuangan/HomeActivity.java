@@ -3,6 +3,9 @@ package com.example.keuangan;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -44,6 +47,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+
+        replaceFragment(new OverviewFragment());
+        binding.bottomNavigationView.setBackground(null);
 
         binding.tTanggal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +97,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         setUpSpinner();
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
+        fragmentTransaction.commit();
     }
 
     private void showDatePicker() {
@@ -217,13 +230,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new OverviewFragment()).commit();
-                return true;
+                replaceFragment(new OverviewFragment());
+                break;
             case R.id.navigation_statistic:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new StatisticFragment()).commit();
-                return true;
-            default:
-                return false;
+               replaceFragment(new StatisticFragment());
+                break;
         }
+        return true;
     }
 }

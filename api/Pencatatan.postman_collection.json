@@ -1,0 +1,582 @@
+{
+	"info": {
+		"_postman_id": "d1c3d2a7-15e2-4415-8685-46792a9617c3",
+		"name": "Pencatatan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Profile - Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_user",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "nama_usaha",
+									"value": "Toko Sembako",
+									"type": "text"
+								},
+								{
+									"key": "alamat",
+									"value": "Jl. Hayam Wuruk",
+									"description": "1= pemasukan, 2=pengeluaran",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "satya@bamboomedia.net",
+									"type": "text"
+								},
+								{
+									"key": "password_lama",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password_baru",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/profile/update.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"update.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile - Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/profile/read.php?id_user=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"read.php"
+							],
+							"query": [
+								{
+									"key": "id_user",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Kategori",
+			"item": [
+				{
+					"name": "Kategori - Delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_kategori",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/kategori/delete.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"kategori",
+								"delete.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kategori - Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_user",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "kategori",
+									"value": "Retribusi",
+									"type": "text"
+								},
+								{
+									"key": "id_jenis",
+									"value": "2",
+									"description": "1= pemasukan, 2=pengeluaran",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/kategori/add.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"kategori",
+								"add.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kategori - Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/kategori/read.php?search&id_user=1&id_jenis=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"kategori",
+								"read.php"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": null,
+									"description": "kosongkan jika tidak ada search"
+								},
+								{
+									"key": "id_user",
+									"value": "1"
+								},
+								{
+									"key": "id_jenis",
+									"value": "2",
+									"description": "1=pemasukan, 2=pengeluaran"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kategori - Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_user",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "kategori",
+									"value": "Retribusi",
+									"type": "text"
+								},
+								{
+									"key": "id_jenis",
+									"value": "2",
+									"description": "1= pemasukan, 2=pengeluaran",
+									"type": "text"
+								},
+								{
+									"key": "id_kategori",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/kategori/update.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"kategori",
+								"update.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaksi",
+			"item": [
+				{
+					"name": "Transaksi - Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_kategori",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "jumlah",
+									"value": "5000",
+									"type": "text"
+								},
+								{
+									"key": "catatan",
+									"value": "Bayar Karcis",
+									"type": "text"
+								},
+								{
+									"key": "tanggal",
+									"value": "2023-05-18",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/transaksi/add.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaksi",
+								"add.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transaksi - Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_transaksi",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "id_kategori",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "jumlah",
+									"value": "11000",
+									"type": "text"
+								},
+								{
+									"key": "catatan",
+									"value": "Bansos Pemerintah",
+									"type": "text"
+								},
+								{
+									"key": "tanggal",
+									"value": "2023-05-18",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/transaksi/update.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaksi",
+								"update.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transaksi - Delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id_transaksi",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/transaksi/delete.php",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaksi",
+								"delete.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "satya@bamboomedia.net",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login.php",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaksi - Read / Halaman Utama",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/transaksi/read.php?id_user=1&tgl_dari=2023-05-15&tgl_sampai=2023-05-18",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"transaksi",
+						"read.php"
+					],
+					"query": [
+						{
+							"key": "id_user",
+							"value": "1"
+						},
+						{
+							"key": "tgl_dari",
+							"value": "2023-05-15"
+						},
+						{
+							"key": "tgl_sampai",
+							"value": "2023-05-18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Statistik",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/statistik.php?id_user=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"statistik.php"
+					],
+					"query": [
+						{
+							"key": "id_user",
+							"value": "1"
+						},
+						{
+							"key": "tgl_dari",
+							"value": "2023-05-15",
+							"disabled": true
+						},
+						{
+							"key": "tgl_sampai",
+							"value": "2023-05-18",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "export excel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/laporan_excel.php?id_user=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"laporan_excel.php"
+					],
+					"query": [
+						{
+							"key": "id_user",
+							"value": "1"
+						},
+						{
+							"key": "tgl_dari",
+							"value": "2023-05-15",
+							"disabled": true
+						},
+						{
+							"key": "tgl_sampai",
+							"value": "2023-05-18",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "adamd@bamboomedia.net",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty",
+							"type": "text"
+						},
+						{
+							"key": "alamat",
+							"value": "JL. Akasia",
+							"type": "text"
+						},
+						{
+							"key": "nama_usaha",
+							"value": "Go Go Ca",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/register.php",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"register.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read Jenis Kategori",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/jenis_kategori.php",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jenis_kategori.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost/pencatatan/api_mobile/",
+			"type": "string"
+		}
+	]
+}
