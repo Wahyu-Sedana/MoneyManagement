@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.example.keuangan.databinding.ActivityRegisterBinding;
 import com.example.keuangan.models.RegisterResponse;
 import com.example.keuangan.services.ApiClient;
-import com.example.keuangan.services.UserRegister;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,15 +49,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registerUser() {
         boolean valid = true;
-        String nama, email, password, cPassword;
+        String nama, alamat, email, password, cPassword;
 
         nama = binding.tNama.getText().toString();
+        alamat = binding.tAlamat.getText().toString();
         email = binding.tEmail.getText().toString().trim();
         password = binding.tPassword.getText().toString().trim();
         cPassword = binding.tCPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(nama)) {
             binding.tNama.setError("Nama harus diisi");
+            valid = false;
+        }else if (TextUtils.isEmpty(alamat)) {
+            binding.tAlamat.setError("Alamat harus diisi");
             valid = false;
         } else if (TextUtils.isEmpty(email)) {
             binding.tEmail.setError("Email harus diisi");
@@ -69,15 +72,15 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(password)) {
             binding.tPassword.setError("Password harus diisi");
             valid = false;
-        } else if (password.length() < 6) {
-            binding.tPassword.setError("Password harus memiliki setidaknya 6 karakter");
+        } else if (password.length() < 4) {
+            binding.tPassword.setError("Password harus memiliki setidaknya 4 karakter");
             valid = false;
         } else if (!password.equals(cPassword)) {
             binding.tPassword.setError("Password tidak cocok");
             binding.tCPassword.setError("Password tidak cocok");
             valid = false;
         } else {
-            ApiClient.registerUser(nama, email, password, new Callback<RegisterResponse>() {
+            ApiClient.registerUser(nama, alamat, email, password, new Callback<RegisterResponse>() {
 
                 @Override
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {

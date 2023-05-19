@@ -1,8 +1,7 @@
 package com.example.keuangan.services;
 
+import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.RegisterResponse;
-
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -12,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://10.0.2.2:3000/api/";
+    private static final String BASE_URL = "http://10.0.2.2/pencatatan/api_mobile/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getApiClient() {
@@ -34,9 +33,15 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static void registerUser(String nama, String email, String password, Callback<RegisterResponse> callback) {
-        UserRegister apiInterface = getApiClient().create(UserRegister.class);
-        Call<RegisterResponse> call = apiInterface.registerUser(nama, email, password);
+    public static void registerUser(String nama, String alamat, String email, String password, Callback<RegisterResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<RegisterResponse> call = apiInterface.registerUser(nama, alamat, email, password);
+        call.enqueue(callback);
+    }
+
+    public static void loginUser(String email, String password, Callback<LoginResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<LoginResponse> call = apiInterface.loginResponse(email, password);
         call.enqueue(callback);
     }
 }

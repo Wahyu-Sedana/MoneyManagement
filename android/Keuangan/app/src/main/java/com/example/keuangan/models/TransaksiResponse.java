@@ -1,40 +1,70 @@
 package com.example.keuangan.models;
 
+import java.util.List;
+
 public class TransaksiResponse {
-    public String getKategori() {
-        return kategori;
+    private boolean success;
+    private boolean error;
+
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setKategori(String kategori) {
-        this.kategori = kategori;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
-    public int getJumlah() {
-        return jumlah;
+    public boolean isError() {
+        return error;
     }
 
-    public void setJumlah(int jumlah) {
-        this.jumlah = jumlah;
+    public void setError(boolean error) {
+        this.error = error;
     }
 
-    public String getCatatan() {
-        return catatan;
+    public List<Transaksi> getData() {
+        return data;
     }
 
-    public void setCatatan(String catatan) {
-        this.catatan = catatan;
+    public void setData(List<Transaksi> data) {
+        this.data = data;
     }
 
-    public String getTgl() {
-        return tgl;
+    public int getTotal_pemasukan() {
+        return total_pemasukan;
     }
 
-    public void setTgl(String tgl) {
-        this.tgl = tgl;
+    public void setTotal_pemasukan(int total_pemasukan) {
+        this.total_pemasukan = total_pemasukan;
     }
 
-    private String kategori;
-    private int jumlah;
-    private String catatan;
-    private String tgl;
+    public int getTotal_pengeluaran() {
+        return total_pengeluaran;
+    }
+
+    public void setTotal_pengeluaran(int total_pengeluaran) {
+        this.total_pengeluaran = total_pengeluaran;
+    }
+
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private List<Transaksi> data;
+    private int total_pemasukan;
+    private int total_pengeluaran;
+    private int saldo;
+    private String message;
 }

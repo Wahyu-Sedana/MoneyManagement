@@ -5,16 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.keuangan.databinding.ActivityLoginBinding;
+import com.example.keuangan.models.LoginResponse;
+import com.example.keuangan.models.RegisterResponse;
+import com.example.keuangan.services.ApiClient;
+import com.example.keuangan.session.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,19 +34,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+        sessionManager = new SessionManager(this);
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(isValidate()){
-//                    // jika form sudah diisi dengan benar
-//                    Toast.makeText(getApplicationContext(), "Berhasil Login", Toast.LENGTH_LONG).show();
-//                }else {
-//                    // jika form belum disii dengan benar
-//                    Toast.makeText(getApplicationContext(), "gagal Login", Toast.LENGTH_LONG).show();
-//                }
-
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+               loginUser();
             }
         });
 
@@ -58,29 +61,55 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUser() {
         boolean valid = true;
+        String email, password;
 
-        TextInputEditText tvEmail = binding.lEmail;
-        TextInputEditText tvPassword = binding.lPassword;
+        email = binding.lEmail.getText().toString().trim();
+        password = binding.lPassword.getText().toString().trim();
 
-        String inputEmail = tvEmail.getText().toString().trim();
-        String inputPassword = tvPassword.getText().toString().trim();
-
-
-        if (TextUtils.isEmpty(inputEmail)) {
-            tvEmail.setError("Email harus diisi");
+        if (TextUtils.isEmpty(email)) {
+            binding.lEmail.setError("Email harus diisi");
             valid = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()) {
-            tvEmail.setError("Email tidak valid");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.lEmail.setError("Email tidak valid");
             valid = false;
-        } else if (TextUtils.isEmpty(inputPassword)) {
-            tvPassword.setError("Password harus diisi");
+        } else if (TextUtils.isEmpty(password)) {
+            binding.lPassword.setError("Password harus diisi");
             valid = false;
-        } else if (inputPassword.length() < 6) {
-            tvPassword.setError("Password harus memiliki setidaknya 6 karakter");
+        } else if (password.length() < 4) {
+            binding.lPassword.setError("Password harus memiliki setidaknya 4 karakter");
             valid = false;
-        } else {
+        }  else {
+            ApiClient.loginUser(email, password, new Callback<LoginResponse>() {
 
+
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    if (response.isSuccessful()) {
+                        LoginResponse loginResponse = response.body();
+                        if (loginResponse.isSuccess() == true && loginResponse != null) {
+                            // Jika register berhasil, lakukan sesuatu
+                            String message = loginResponse.getMessage();
+                            sessionManager.saveLoginDetails(email, password);
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Jika register gagal, lakukan sesuatu
+                            String message = loginResponse.getMessage();
+                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        }
+//                    Toast.makeText(RegisterActivity.this, "berhasil", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Jika response gagal, lakukan sesuatu
+                        Toast.makeText(LoginActivity.this, "Failed to logim", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, "Please try again later", Toast.LENGTH_SHORT).show();
+                    Log.e("error", t.getMessage(), t);
+                }
+            });
         }
-
     }
 }

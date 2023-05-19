@@ -23,8 +23,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.example.keuangan.databinding.ActivityHomeBinding;
+import com.example.keuangan.session.SessionManager;
 import com.example.keuangan.uiFragment.OverviewFragment;
 import com.example.keuangan.uiFragment.StatisticFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private ActivityHomeBinding binding;
     private Animation slideUpAnimation;
     private DatePickerDialog datePickerDialog;
+    private SessionManager sessionManager;
     private boolean isSlideUpVisible = false;
 
     @Override
@@ -48,7 +51,19 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         getSupportActionBar().hide();
 
+        sessionManager = new SessionManager(this);
+
+        if (sessionManager.isLoggedIn()) {
+            // Pengguna sudah login sebelumnya, lanjutkan ke halaman beranda atau aktivitas utama
+            // ...
+        } else {
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         replaceFragment(new OverviewFragment());
+
         binding.bottomNavigationView.setBackground(null);
 
         binding.tTanggal.setOnClickListener(new View.OnClickListener() {
