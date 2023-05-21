@@ -22,7 +22,7 @@
             android:name=".TambahTransaksiActivity"
             android:exported="false" />
         <activity
-            android:name=".SemuaKategori"
+            android:name=".SemuaKategoriActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

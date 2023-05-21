@@ -4,23 +4,41 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SessionManager {
-    private static final String PREF_NAME = "K3u@ngan";
+    private static final String PREF_NAME = "MyPrefs";
+    private static final String KEY_USER_ID = "userId";
     private static final String KEY_EMAIL = "email";
-    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_NAMA_USAHA = "namaUsaha";
+
+    private static final String KEY_LOGGED_IN = "isLoggedIn";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private Context context;
 
     public SessionManager(Context context) {
-        this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    public void saveLoginDetails(String email, String password) {
+    public void setLoggedIn(boolean isLoggedIn) {
+        editor.putBoolean(KEY_LOGGED_IN, isLoggedIn);
+        editor.apply();
+    }
+
+    public boolean isLoggedIn() {
+        return sharedPreferences.getBoolean(KEY_LOGGED_IN, false);
+    }
+
+    public void setUserId(int userId) {
+        editor.putInt(KEY_USER_ID, userId);
+        editor.apply();
+    }
+
+    public int getUserId() {
+        return sharedPreferences.getInt(KEY_USER_ID, 0);
+    }
+
+    public void setEmail(String email) {
         editor.putString(KEY_EMAIL, email);
-        editor.putString(KEY_PASSWORD, password);
         editor.apply();
     }
 
@@ -28,17 +46,12 @@ public class SessionManager {
         return sharedPreferences.getString(KEY_EMAIL, "");
     }
 
-    public String getPassword() {
-        return sharedPreferences.getString(KEY_PASSWORD, "");
-    }
-
-    public void clearLoginDetails() {
-        editor.remove(KEY_EMAIL);
-        editor.remove(KEY_PASSWORD);
+    public void setNamaUsaha(String namaUsaha) {
+        editor.putString(KEY_NAMA_USAHA, namaUsaha);
         editor.apply();
     }
 
-    public boolean isLoggedIn() {
-        return sharedPreferences.contains(KEY_EMAIL) && sharedPreferences.contains(KEY_PASSWORD);
+    public String getNamaUsaha() {
+        return sharedPreferences.getString(KEY_NAMA_USAHA, "");
     }
 }

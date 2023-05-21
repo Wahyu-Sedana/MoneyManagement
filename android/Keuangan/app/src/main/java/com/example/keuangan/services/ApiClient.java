@@ -1,7 +1,12 @@
 package com.example.keuangan.services;
 
+import com.example.keuangan.models.Kategori;
+import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.RegisterResponse;
+import com.example.keuangan.models.TransaksiResponse;
+
+import java.util.Date;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -42,6 +47,42 @@ public class ApiClient {
     public static void loginUser(String email, String password, Callback<LoginResponse> callback) {
         ApiServices apiInterface = getApiClient().create(ApiServices.class);
         Call<LoginResponse> call = apiInterface.loginResponse(email, password);
+        call.enqueue(callback);
+    }
+
+    public static void loadTransaksi(int userId, Callback<TransaksiResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<TransaksiResponse> call = apiInterface.getData(userId);
+        call.enqueue(callback);
+    }
+
+    public static void addTransaksi(int idKatergori, int jumlah, String catatan, String tanggal, Callback<TransaksiResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<TransaksiResponse> call = apiInterface.addTransaksi(idKatergori, jumlah, catatan, tanggal);
+        call.enqueue(callback);
+    }
+
+    public static void loadDataCard(int userId, Callback<TransaksiResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<TransaksiResponse> call = apiInterface.getData(userId);
+        call.enqueue(callback);
+    }
+
+    public static void loadDataKategori(int userId, Callback<KategoriResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<KategoriResponse> call = apiInterface.getDataKategori(userId);
+        call.enqueue(callback);
+    }
+
+    public static void loadListKategori(int userId, Callback<KategoriResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<KategoriResponse> call = apiServices.getDataKategori(userId);
+        call.enqueue(callback);
+    }
+
+    public static void deleteItemKategori(int kategoriId, Callback<KategoriResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<KategoriResponse> call = apiServices.deleteDataKategori(kategoriId);
         call.enqueue(callback);
     }
 }

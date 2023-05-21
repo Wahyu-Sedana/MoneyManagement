@@ -2,7 +2,9 @@ package com.example.keuangan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -89,8 +91,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (loginResponse.isSuccess() == true && loginResponse != null) {
                             // Jika register berhasil, lakukan sesuatu
                             String message = loginResponse.getMessage();
-                            sessionManager.saveLoginDetails(email, password);
+                            saveUserData(loginResponse.getData());
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
                             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                         } else {
                             // Jika register gagal, lakukan sesuatu
@@ -111,5 +114,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void saveUserData(LoginResponse.DataUser data) {
+        sessionManager.setLoggedIn(true);
+        sessionManager.setUserId(data.getId_user());
+        sessionManager.setEmail(data.getEmail());
+        sessionManager.setNamaUsaha(data.getNama_usaha());
     }
 }

@@ -2,14 +2,15 @@ package com.example.keuangan;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,19 +22,28 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.keuangan.databinding.ActivityHomeBinding;
+import com.example.keuangan.models.Kategori;
+import com.example.keuangan.models.KategoriResponse;
+import com.example.keuangan.models.TransaksiResponse;
+import com.example.keuangan.services.ApiClient;
 import com.example.keuangan.session.SessionManager;
 import com.example.keuangan.uiFragment.OverviewFragment;
 import com.example.keuangan.uiFragment.StatisticFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ActivityHomeBinding binding;
@@ -41,6 +51,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private DatePickerDialog datePickerDialog;
     private SessionManager sessionManager;
     private boolean isSlideUpVisible = false;
+
+    private List<Kategori> kategoriList;
+
+    private int userId;
+    private String email;
+    private String namaUsaha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +69,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         sessionManager = new SessionManager(this);
 
-        if (sessionManager.isLoggedIn()) {
-            // Pengguna sudah login sebelumnya, lanjutkan ke halaman beranda atau aktivitas utama
-            // ...
-        } else {
-            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        // Ambil data pengguna dari SharedPrefsManager
+        userId = sessionManager.getUserId();
+        email = sessionManager.getEmail();
+        namaUsaha = sessionManager.getNamaUsaha();
+
 
         replaceFragment(new OverviewFragment());
 
@@ -73,28 +86,28 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
-        binding.btnPemasukan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonActive(binding.btnPemasukan);
-                setButtonInactive(binding.btnPengeluaran);
-            }
-        });
+//        binding.btnPemasukan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setButtonActive(binding.btnPemasukan);
+//                setButtonInactive(binding.btnPengeluaran);
+//            }
+//        });
 
         binding.semuaKategori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SemuaKategori.class));
+                startActivity(new Intent(HomeActivity.this, SemuaKategoriActivity.class));
             }
         });
 
-        binding.btnPengeluaran.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonActive(binding.btnPengeluaran);
-                setButtonInactive(binding.btnPemasukan);
-            }
-        });
+//        binding.btnPengeluaran.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setButtonActive(binding.btnPengeluaran);
+//                setButtonInactive(binding.btnPemasukan);
+//            }
+//        });
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +125,55 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         setUpSpinner();
+
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addData();
+            }
+        });
+    }
+
+    private void addData() {
+
+        int selectedPosition = binding.spinner.getSelectedItemPosition();
+        Kategori selectedKategori =  kategoriList.get(selectedPosition);
+        int idKategori = selectedKategori.getId_kategori();
+        int jumlah = Integer.parseInt(binding.addJumlah.getText().toString());
+        String catatan = binding.addCatatan.getText().toString();
+        Date tanggal = new Date();
+
+        // Format tanggal menjadi String menggunakan SimpleDateFormat
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String tanggalString = dateFormat.format(tanggal);
+
+        ApiClient.addTransaksi(idKategori, jumlah, catatan, tanggalString, new Callback<TransaksiResponse>() {
+            @Override
+            public void onResponse(Call<TransaksiResponse> call, Response<TransaksiResponse> response) {
+                if (response.isSuccessful()) {
+                    TransaksiResponse addDataResponse = response.body();
+                    if(addDataResponse.isSuccess() && addDataResponse != null){
+                        new AlertDialog.Builder(HomeActivity.this)
+                                .setTitle("Success")
+                                .setMessage("Berhasil menambahkan data")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getApplicationContext(), "Terimakasih!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).show();
+                    }
+                } else {
+                    // Tangani kesalahan respons
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -144,32 +206,47 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void setUpSpinner() {
-        List<String> dataList = new ArrayList<>();
-        dataList.add("Data 1");
-        dataList.add("Data 2");
-        dataList.add("Data 3");
-        dataList.add("Data 4");
-        dataList.add("Data 5");
-        dataList.add("Data 6");
-        dataList.add("Data 7");
-        dataList.add("Data 8");
-        dataList.add("Data 9");
-        dataList.add("Data 10");
+        ApiClient.loadDataKategori(userId, new Callback<KategoriResponse>() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dataList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinner.setAdapter(adapter);
+            @Override
+            public void onResponse(Call<KategoriResponse> call, Response<KategoriResponse> response) {
+                if (response.isSuccessful()) {
+                    KategoriResponse apiResponse = response.body();
+                    if (apiResponse != null && apiResponse.isSuccess()) {
+                        kategoriList = apiResponse.getData();
+
+                        // Membuat adapter untuk Spinner dengan data kategori
+                        ArrayAdapter<Kategori> spinnerAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, kategoriList);
+                        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        // Mengatur adapter pada Spinner
+                        binding.spinner.setAdapter(spinnerAdapter);
+                    } else {
+                        // Gagal memuat data kategori
+                        Toast.makeText(getApplicationContext(), "Gagal memuat data kategori", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Tangani kesalahan dalam respons API
+                    Toast.makeText(getApplicationContext(), "Terjadi kesalahan saat mengirim permintaan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<KategoriResponse> call, Throwable t) {
+
+            }
+        });
     }
 
-    private void setButtonActive(Button button) {
-        button.setTextColor(ContextCompat.getColor(this, R.color.white));
-        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue_dark));
-    }
-
-    private void setButtonInactive(Button button) {
-        button.setTextColor(ContextCompat.getColor(this, R.color.gray));
-        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.button_inactive_tint));
-    }
+//    private void setButtonActive(Button button) {
+//        button.setTextColor(ContextCompat.getColor(this, R.color.white));
+//        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue_dark));
+//    }
+//
+//    private void setButtonInactive(Button button) {
+//        button.setTextColor(ContextCompat.getColor(this, R.color.gray));
+//        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.button_inactive_tint));
+//    }
 
     private void showSlideUpLayout() {
         binding.fab.setVisibility(View.GONE);

@@ -7,38 +7,54 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:id="@+id/bottomAppBar"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="10dp">
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/bottomNavigationView"
-            android:layout_marginRight="16dp"
-            app:labelVisibilityMode="selected"
-            app:menu="@menu/bottom_nav_menu"
-            android:background="@drawable/transparent_background" />
-    </com.google.android.material.bottomappbar.BottomAppBar>
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottomAppBar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_weight="1" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fab"
-        android:backgroundTint="#3F51B5"
-        android:src="@drawable/ic_baseline_add_24"
-        app:tint="@color/white"
-        app:layout_anchor="@id/bottomAppBar" />
+        <com.google.android.material.bottomappbar.BottomAppBar
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/bottomAppBar"
+            app:fabAlignmentMode="end"
+            app:fabCradleMargin="10dp"
+            app:fabCradleRoundedCornerRadius="10dp"
+            app:fabCradleVerticalOffset="10dp"
+            tools:ignore="BottomAppBar">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/bottomNavigationView"
+                android:layout_marginRight="16dp"
+                app:labelVisibilityMode="selected"
+                app:menu="@menu/bottom_nav_menu"
+                android:background="@drawable/transparent_background" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#3F51B5"
+            android:src="@drawable/ic_baseline_add_24"
+            app:layout_constraintBottom_toBottomOf="@id/bottomAppBar"
+            app:layout_constraintEnd_toEndOf="@id/bottomAppBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/darkBackground"
@@ -56,33 +72,6 @@
         android:visibility="gone"
         android:background="@android:color/white"
         android:padding="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnPemasukan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Pemasukan"
-                android:textColor="#B8B8B8"
-                android:layout_marginEnd="5dp"
-                app:backgroundTint="@color/button_inactive_tint" />
-
-            <Button
-                android:id="@+id/btnPengeluaran"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Pengeluaran"
-                android:textColor="@color/white"
-                android:layout_marginStart="5dp"
-                app:backgroundTint="@color/button_active_tint" />
-
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -138,6 +127,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:hint="Jumlah"
+                android:id="@+id/addJumlah"
+                android:inputType="number"
                 android:layout_height="50dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,6 +140,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
+                android:id="@+id/addCatatan"
                 android:hint="Catatan"
                 android:layout_height="50dp"/>
         </com.google.android.material.textfield.TextInputLayout>

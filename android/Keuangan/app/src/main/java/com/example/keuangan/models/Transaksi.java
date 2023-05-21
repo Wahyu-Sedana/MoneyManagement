@@ -1,15 +1,15 @@
 package com.example.keuangan.models;
 
 public class Transaksi {
-    private String id_jenis;
-
-    public String getId_jenis() {
+    public int getId_jenis() {
         return id_jenis;
     }
 
-    public void setId_jenis(String id_jenis) {
+    public void setId_jenis(int id_jenis) {
         this.id_jenis = id_jenis;
     }
+
+    private int id_jenis;
 
     public String getKategori() {
         return kategori;

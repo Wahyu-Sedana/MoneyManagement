@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputKategori"
+            android:layout_width="match_parent"
+            android:hint="Nama Kategori"
+            android:inputType="text"
+            android:layout_height="50dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:layout_margin="10dp"
+        android:id="@+id/spinnerKategori"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+
+    <Button
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/addKategori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tambah kategori" />
+</LinearLayout>
