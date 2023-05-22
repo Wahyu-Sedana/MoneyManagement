@@ -32,16 +32,34 @@
             android:textSize="10dp"/>
     </LinearLayout>
 
-    <ImageView
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center_vertical"
-        android:layout_marginEnd="10dp"
-        android:textStyle="bold"
-        android:src="@drawable/trash"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/hapusKategori"/>
+        android:orientation="horizontal">
+
+        <ImageView
+            android:gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:src="@drawable/pencil2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/editKategori"/>
+
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:src="@drawable/trash"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/hapusKategori"/>
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

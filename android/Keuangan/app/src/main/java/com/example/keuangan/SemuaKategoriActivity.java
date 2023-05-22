@@ -48,7 +48,7 @@ public class SemuaKategoriActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Kategori");
 
 
-        adapter = new KategoriAdapter(new ArrayList<>());
+        adapter = new KategoriAdapter(this, new ArrayList<>());
 
         binding.listKategori.setAdapter(adapter);
         binding.listKategori.setLayoutManager(new LinearLayoutManager(this));
@@ -90,6 +90,7 @@ public class SemuaKategoriActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == android.R.id.home) {
             // handle the back button click
+            startActivity(new Intent(SemuaKategoriActivity.this, HomeActivity.class));
             finish();
             return true;
         } else {

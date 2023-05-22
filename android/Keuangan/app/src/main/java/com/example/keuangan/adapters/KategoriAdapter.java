@@ -1,6 +1,8 @@
 package com.example.keuangan.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.keuangan.TambahKategoriActivity;
 import com.example.keuangan.databinding.ItemKategoriBinding;
 import com.example.keuangan.models.Kategori;
 import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.services.ApiClient;
+import com.example.keuangan.session.SessionManager;
 
 import java.util.List;
 
@@ -23,7 +27,10 @@ import retrofit2.Response;
 public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.KategoriViewHolder> {
 
     private List<Kategori> kategoriList;
-    public KategoriAdapter(List<Kategori> kategoriList) {
+    private Context ctx;
+    private int userId;
+    public KategoriAdapter(Context ctx, List<Kategori> kategoriList) {
+        this.ctx = ctx;
         this.kategoriList = kategoriList;
     }
 
@@ -39,9 +46,26 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
     }
 
     @Override
-    public void onBindViewHolder(@NonNull KategoriViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull KategoriViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Kategori kategori = kategoriList.get(position);
         holder.binding.namaKategori.setText(kategori.getKategori());
+        holder.binding.editKategori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int kategoriId = kategoriList.get(position).getId_kategori();
+                String namaKategori = kategoriList.get(position).getKategori();
+                int jenisId = kategoriList.get(position).getId_jenis();
+//                Toast.makeText(holder.itemView.getContext(), "kategoriId : " +kategoriId+ "kategori : " +namaKategori+ "jenisId : " +jenisId, Toast.LENGTH_SHORT).show();
+
+                Intent kirim = new Intent(holder.itemView.getContext(), TambahKategoriActivity.class);
+                kirim.putExtra("kategoriId", kategoriId);
+                kirim.putExtra("namaKategori", namaKategori);
+                kirim.putExtra("jenisId", jenisId);
+
+                ctx.startActivity(kirim);
+
+            }
+        });
         holder.binding.hapusKategori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

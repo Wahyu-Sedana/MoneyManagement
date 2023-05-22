@@ -92,9 +92,9 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
-    public static void getDataJenis(int userId, int jenisId, Callback<KategoriResponse> callback) {
+    public static void updateDataKategori(int userId, String namaKategori, int jenisId, Callback<KategoriResponse> callback) {
         ApiServices apiServices = getApiClient().create(ApiServices.class);
-        Call<KategoriResponse> call = apiServices.getDataJenis(userId, jenisId);
+        Call<KategoriResponse> call = apiServices.updateDataKategori(userId, namaKategori, jenisId);
         call.enqueue(callback);
     }
 }
