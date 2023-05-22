@@ -102,9 +102,6 @@ public class OverviewFragment extends Fragment {
                         int totalPengeluaran = transaksiCard.getTotal_pengeluaran();
 
                         // Update tampilan card dengan data yang diambil dari respons JSON
-//                        binding.totalSaldo.setText("Rp. " + String.valueOf(saldo));
-//                        binding.pemasukan.setText("Rp. " + String.valueOf(totalPemasukan));
-//                        binding.pengeluaran.setText("Rp. " + String.valueOf(totalPengeluaran));
                         binding.totalSaldo.setText(formatIDR(Double.valueOf(saldo)));
                         binding.pemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
                         binding.pengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));

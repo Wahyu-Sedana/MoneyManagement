@@ -60,9 +60,23 @@ public interface ApiServices {
             @Query("id_user") int userId
     );
 
+    @GET("kategori/read.php")
+    Call<KategoriResponse> getDataJenis(
+            @Query("id_user") int userId,
+            @Query("id_jenis") int idJenis
+    );
+
     @FormUrlEncoded
     @POST("kategori/delete.php")
     Call<KategoriResponse> deleteDataKategori(
             @Field("id_kategori") int kategoriId
+    );
+
+    @FormUrlEncoded
+    @POST("kategori/add.php")
+    Call<KategoriResponse> addDataKategori(
+            @Field("id_user") int userId,
+            @Field("kategori") String namaKategori,
+            @Field("id_jenis") int jenisId
     );
 }

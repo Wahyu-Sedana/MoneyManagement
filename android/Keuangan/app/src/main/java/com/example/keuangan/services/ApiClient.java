@@ -85,4 +85,16 @@ public class ApiClient {
         Call<KategoriResponse> call = apiServices.deleteDataKategori(kategoriId);
         call.enqueue(callback);
     }
+
+    public static void addItemKategori(int userId, String namaKategori, int jenisId, Callback<KategoriResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<KategoriResponse> call = apiServices.addDataKategori(userId, namaKategori, jenisId);
+        call.enqueue(callback);
+    }
+
+    public static void getDataJenis(int userId, int jenisId, Callback<KategoriResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<KategoriResponse> call = apiServices.getDataJenis(userId, jenisId);
+        call.enqueue(callback);
+    }
 }

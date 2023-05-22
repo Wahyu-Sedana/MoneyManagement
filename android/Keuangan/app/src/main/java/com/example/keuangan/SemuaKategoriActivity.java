@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-
+import android.widget.ArrayAdapter;
 import com.example.keuangan.adapters.KategoriAdapter;
 import com.example.keuangan.databinding.ActivitySemuaKategoriBinding;
 import com.example.keuangan.models.Kategori;
@@ -30,7 +31,9 @@ public class SemuaKategoriActivity extends AppCompatActivity {
     private ActivitySemuaKategoriBinding binding;
     private KategoriAdapter adapter;
     private SessionManager sessionManager;
+
     private int userId;
+    private int idJenis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class SemuaKategoriActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Kategori");
 
+
         adapter = new KategoriAdapter(new ArrayList<>());
 
         binding.listKategori.setAdapter(adapter);
@@ -53,26 +57,13 @@ public class SemuaKategoriActivity extends AppCompatActivity {
         binding.lAddKategori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFormModal();
+                startActivity(new Intent(SemuaKategoriActivity.this, TambahKategoriActivity.class));
             }
         });
 
+
     }
 
-    private void showFormModal() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Tambah Kategori")
-                .setView(R.layout.form_modal_layout)
-                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     private void loadKategori() {
         ApiClient.loadListKategori(userId, new Callback<KategoriResponse>() {

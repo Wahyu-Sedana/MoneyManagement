@@ -55,6 +55,7 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
                                 // Hapus item kategori dari list jika penghapusan berhasil
                                 kategoriList.remove(holder.getAdapterPosition());
                                 notifyDataSetChanged();
+
                             } else {
                                 // Tampilkan pesan error jika penghapusan gagal
                                 Toast.makeText(holder.itemView.getContext(), kategoriResponse.getMessage(), Toast.LENGTH_SHORT).show();

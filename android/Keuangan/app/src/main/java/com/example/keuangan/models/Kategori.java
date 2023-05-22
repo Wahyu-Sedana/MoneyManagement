@@ -2,8 +2,15 @@ package com.example.keuangan.models;
 
 public class Kategori {
     private int id_kategori;
-    private int id_jenis;
     private String kategori;
+
+    private int id_jenis;
+
+    public Kategori(int id_kategori, int id_jenis, String kategori) {
+        this.id_kategori = id_kategori;
+        this.id_jenis = id_jenis;
+        this.kategori = kategori;
+    }
 
     public int getId_kategori() {
         return id_kategori;
@@ -29,7 +36,10 @@ public class Kategori {
         this.kategori = kategori;
     }
 
+
     public String toString() {
         return kategori;
     }
+
 }
+

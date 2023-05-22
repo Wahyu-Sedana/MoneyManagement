@@ -86,28 +86,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
-//        binding.btnPemasukan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setButtonActive(binding.btnPemasukan);
-//                setButtonInactive(binding.btnPengeluaran);
-//            }
-//        });
-
         binding.semuaKategori.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, SemuaKategoriActivity.class));
             }
         });
-
-//        binding.btnPengeluaran.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setButtonActive(binding.btnPengeluaran);
-//                setButtonInactive(binding.btnPemasukan);
-//            }
-//        });
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,15 +222,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         });
     }
 
-//    private void setButtonActive(Button button) {
-//        button.setTextColor(ContextCompat.getColor(this, R.color.white));
-//        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue_dark));
-//    }
-//
-//    private void setButtonInactive(Button button) {
-//        button.setTextColor(ContextCompat.getColor(this, R.color.gray));
-//        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.button_inactive_tint));
-//    }
 
     private void showSlideUpLayout() {
         binding.fab.setVisibility(View.GONE);
