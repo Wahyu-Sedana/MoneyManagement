@@ -3,6 +3,7 @@ package com.example.keuangan.services;
 import com.example.keuangan.models.Kategori;
 import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
+import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
 import com.example.keuangan.models.TransaksiResponse;
 
@@ -92,9 +93,15 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
-    public static void updateDataKategori(int userId, String namaKategori, int jenisId, Callback<KategoriResponse> callback) {
+    public static void updateDataKategori(int userId, String namaKategori, int jenisId, int kategoriId, Callback<KategoriResponse> callback) {
         ApiServices apiServices = getApiClient().create(ApiServices.class);
-        Call<KategoriResponse> call = apiServices.updateDataKategori(userId, namaKategori, jenisId);
+        Call<KategoriResponse> call = apiServices.updateDataKategori(userId, namaKategori, jenisId, kategoriId);
+        call.enqueue(callback);
+    }
+
+    public static void getDataProfile(int userId, Callback<ProfileResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<ProfileResponse> call = apiServices.getDataProfile(userId);
         call.enqueue(callback);
     }
 }

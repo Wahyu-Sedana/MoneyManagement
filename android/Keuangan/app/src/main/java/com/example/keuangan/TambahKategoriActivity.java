@@ -13,11 +13,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.keuangan.databinding.ActivityTambahKategoriBinding;
-import com.example.keuangan.models.Kategori;
 import com.example.keuangan.models.KategoriResponse;
-import com.example.keuangan.models.TransaksiResponse;
 import com.example.keuangan.services.ApiClient;
 import com.example.keuangan.session.SessionManager;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,80 +34,87 @@ public class TambahKategoriActivity extends AppCompatActivity {
     private boolean pemasukan;
     private boolean pengeluaran;
     private int jenisId;
-    private Kategori kategori;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
-        binding = ActivityTambahKategoriBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+            binding = ActivityTambahKategoriBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
 
-        sessionManager = new SessionManager(this);
-        userId = sessionManager.getUserId();
+            sessionManager = new SessionManager(this);
+            userId = sessionManager.getUserId();
 
-        Intent terima = getIntent();
-        kategoriId = terima.getIntExtra("kategoriId", 0);
-        namaKategori = terima.getStringExtra("namaKategori");
-        jenisId = terima.getIntExtra("jenisId", 0);
+            Intent terima = getIntent();
+            kategoriId = terima.getIntExtra("kategoriId", 0);
+            namaKategori = terima.getStringExtra("namaKategori");
+            jenisId = terima.getIntExtra("jenisId", 0);
 
-        binding.inputKategori.setText(namaKategori);
+            binding.inputKategori.setText(namaKategori);
 
-        if(jenisId == 1){
-            binding.radioButtonPemasukan.setChecked(true);
-        }else if (jenisId == 2){
-            binding.radioButtonPengeluaran.setChecked(true);
+            namaKategori = binding.inputKategori.getText().toString().trim();
+            pemasukan = binding.radioButtonPemasukan.isChecked();
+            pengeluaran = binding.radioButtonPengeluaran.isChecked();
+            boolean isFormEmpty = namaKategori.isEmpty() && !pemasukan && !pengeluaran;
+
+            if(jenisId == 1){
+                binding.radioButtonPemasukan.setChecked(true);
+            }else if (jenisId == 2){
+                binding.radioButtonPengeluaran.setChecked(true);
+            }
+
+
+            getSupportActionBar().setTitle("Tambah Kategori");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            binding.btnAddKategori.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   if(isFormEmpty){
+                       addData();
+                   }else {
+                       updateData();
+                   }
+                }
+            });
         }
 
-        namaKategori = binding.inputKategori.getText().toString().trim();
-        pemasukan = binding.radioButtonPemasukan.isChecked();
-        pengeluaran = binding.radioButtonPengeluaran.isChecked();
-        boolean isFormEmpty = namaKategori.isEmpty() && !pemasukan && !pengeluaran;
+        private void updateData() {
+            String updatedNamaKategori = binding.inputKategori.getText().toString().trim();
+            int updatedJenisId = binding.radioButtonPemasukan.isChecked() ? 1 : 2;
 
-
-        getSupportActionBar().setTitle("Tambah Kategori");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        binding.btnAddKategori.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isFormEmpty){
-                    addData();
-                }else {
-                    updateData();
-                }
-            }
-        });
-    }
-
-    private void updateData() {
-
-        ApiClient.updateDataKategori(userId, namaKategori, jenisId, new Callback<KategoriResponse>() {
-            @Override
-            public void onResponse(Call<KategoriResponse> call, Response<KategoriResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    KategoriResponse kategoriResponse = response.body();
-                    if (kategoriResponse.isSuccess()) {
-                        // Berhasil mengupdate data
-                        Toast.makeText(getApplicationContext(), "Data berhasil diupdate", Toast.LENGTH_SHORT).show();
-                        // Refresh tampilan atau lakukan sesuatu setelah pengubahan data
+            ApiClient.updateDataKategori(userId, updatedNamaKategori, updatedJenisId, kategoriId, new Callback<KategoriResponse>() {
+                @Override
+                public void onResponse(Call<KategoriResponse> call, Response<KategoriResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        KategoriResponse kategoriResponse = response.body();
+                        if(kategoriResponse.isSuccess() && kategoriResponse != null){
+                            new AlertDialog.Builder(TambahKategoriActivity.this)
+                                    .setTitle("Success")
+                                    .setMessage("Berhasil update item kategori")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Toast.makeText(getApplicationContext(), "Terimakasih!", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(TambahKategoriActivity.this, SemuaKategoriActivity.class));
+                                        }
+                                    }).show();
+                        }
                     } else {
-                        // Gagal mengupdate data
-                        Toast.makeText(getApplicationContext(), kategoriResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        // Tampilkan pesan error jika response tidak sukses
+                        Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    // Tampilkan pesan error jika response tidak sukses
-                    Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<KategoriResponse> call, Throwable t) {
+                @Override
+                public void onFailure(Call<KategoriResponse> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "please try again!", Toast.LENGTH_SHORT).show();
+                    Log.e("error", t.getMessage(), t);
+                }
+            });
 
-            }
-        });
-
-    }
+        }
 
     private void addData() {
         String namaKategori = binding.inputKategori.getText().toString();

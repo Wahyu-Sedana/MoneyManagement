@@ -2,6 +2,7 @@ package com.example.keuangan.services;
 
 import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
+import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
 import com.example.keuangan.models.TransaksiResponse;
 
@@ -65,7 +66,8 @@ public interface ApiServices {
     Call<KategoriResponse> updateDataKategori(
             @Field("id_user") int userId,
             @Field("kategori") String namaKategori,
-            @Field("jenisId") int jenisId
+            @Field("id_jenis") int jenisId,
+            @Field("id_kategori") int kategoriId
     );
 
     @FormUrlEncoded
@@ -80,5 +82,10 @@ public interface ApiServices {
             @Field("id_user") int userId,
             @Field("kategori") String namaKategori,
             @Field("id_jenis") int jenisId
+    );
+
+    @GET("profile/read.php")
+    Call<ProfileResponse> getDataProfile(
+            @Query("id_user") int userId
     );
 }

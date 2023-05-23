@@ -28,7 +28,6 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
 
     private List<Kategori> kategoriList;
     private Context ctx;
-    private int userId;
     public KategoriAdapter(Context ctx, List<Kategori> kategoriList) {
         this.ctx = ctx;
         this.kategoriList = kategoriList;
@@ -55,9 +54,8 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
                 int kategoriId = kategoriList.get(position).getId_kategori();
                 String namaKategori = kategoriList.get(position).getKategori();
                 int jenisId = kategoriList.get(position).getId_jenis();
-//                Toast.makeText(holder.itemView.getContext(), "kategoriId : " +kategoriId+ "kategori : " +namaKategori+ "jenisId : " +jenisId, Toast.LENGTH_SHORT).show();
 
-                Intent kirim = new Intent(holder.itemView.getContext(), TambahKategoriActivity.class);
+                Intent kirim = new Intent(ctx, TambahKategoriActivity.class);
                 kirim.putExtra("kategoriId", kategoriId);
                 kirim.putExtra("namaKategori", namaKategori);
                 kirim.putExtra("jenisId", jenisId);
@@ -82,11 +80,11 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
 
                             } else {
                                 // Tampilkan pesan error jika penghapusan gagal
-                                Toast.makeText(holder.itemView.getContext(), kategoriResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ctx, kategoriResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             // Tampilkan pesan error jika response tidak sukses
-                            Toast.makeText(holder.itemView.getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ctx, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 

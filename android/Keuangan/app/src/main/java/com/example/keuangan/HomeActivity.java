@@ -58,6 +58,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private String email;
     private String namaUsaha;
 
+    private String alamat;
+    private String password_lama;
+    private String password_baru;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

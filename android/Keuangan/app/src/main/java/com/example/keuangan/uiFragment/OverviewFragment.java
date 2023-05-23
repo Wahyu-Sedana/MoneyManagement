@@ -47,6 +47,7 @@ public class OverviewFragment extends Fragment {
     private SessionManager sessionManager;
     private int userId;
     private String namaUsaha;
+    private String email;
 
 
     @Override
@@ -63,6 +64,7 @@ public class OverviewFragment extends Fragment {
         sessionManager = new SessionManager(requireActivity());
         userId = sessionManager.getUserId();
         namaUsaha = sessionManager.getNamaUsaha();
+        email = sessionManager.getEmail();
 
         binding.namaUserLogin.setText(namaUsaha);
 
