@@ -1,12 +1,19 @@
 package com.example.keuangan.adapters;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.keuangan.R;
+import com.example.keuangan.UpdateTransaksiActivity;
 import com.example.keuangan.databinding.ItemPemasukanBinding;
 import com.example.keuangan.models.Transaksi;
 
@@ -17,6 +24,7 @@ import java.util.Locale;
 public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.TransaksiViewHolder> {
 
     private List<Transaksi> transaksiList;
+
 
     public TransaksiAdapter(List<Transaksi> transaksiList) {
         this.transaksiList = transaksiList;
@@ -34,7 +42,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransaksiAdapter.TransaksiViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TransaksiAdapter.TransaksiViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Transaksi transaksi = transaksiList.get(position);
 
         holder.binding.kategori.setText(transaksi.getKategori());
@@ -49,6 +57,43 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
             holder.binding.iconHistory.setImageResource(R.drawable.pengeluaran);
             holder.binding.total.setTextColor(holder.itemView.getResources().getColor(R.color.red));
         }
+
+        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                // Tambahkan item menu Edit
+                MenuItem editItem = menu.add(Menu.NONE, 1, 1, "Edit");
+                editItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Aksi ketika item Edit dipilih
+                        String total = transaksiList.get(position).getJumlah();
+                        String catatan = transaksiList.get(position).getCatatan();
+                        String tgl = transaksiList.get(position).getTanggal();
+                        String kategori = transaksiList.get(position).getKategori();
+
+                        Intent intent = new Intent(holder.itemView.getContext(), UpdateTransaksiActivity.class);
+                        intent.putExtra("total", total);
+                        intent.putExtra("catatan", catatan);
+                        intent.putExtra("tgl", tgl);
+                        intent.putExtra("kategori", kategori);
+                        holder.itemView.getContext().startActivity(intent);
+                        return true;
+                    }
+                });
+
+                // Tambahkan item menu Delete
+                MenuItem deleteItem = menu.add(Menu.NONE, 2, 2, "Delete");
+                deleteItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Aksi ketika item Delete dipilih
+                        return true;
+                    }
+                });
+            }
+        });
     }
 
     private String formatIDR(double number) {

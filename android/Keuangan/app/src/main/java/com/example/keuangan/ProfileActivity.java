@@ -41,7 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().setTitle("Profile");
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sessionManager = new SessionManager(this);
