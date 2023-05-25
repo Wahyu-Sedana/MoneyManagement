@@ -3,10 +3,13 @@ package com.example.keuangan;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.example.keuangan.databinding.ActivityUpdateTransaksiBinding;
 import com.example.keuangan.models.Kategori;
 import com.example.keuangan.models.KategoriResponse;
+import com.example.keuangan.models.TransaksiResponse;
 import com.example.keuangan.services.ApiClient;
 import com.example.keuangan.session.SessionManager;
 
@@ -36,8 +40,9 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
     private List<Kategori> kategoriList;
 
     private String kategori;
+    private String idTransaksi;
     private String catatan;
-    private String total;
+    private int total;
     private String tgl;
     private int jenisId;
 
@@ -56,21 +61,61 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
 
         Intent terima = getIntent();
         catatan = terima.getStringExtra("catatan");
-        total = terima.getStringExtra("total");
+        total = terima.getIntExtra("total", 0);
         tgl = terima.getStringExtra("tgl");
         kategori = terima.getStringExtra("kategori");
+        idTransaksi = terima.getStringExtra("id_transaksi");
 
         binding.updateCatatan.setText(catatan);
-        binding.updateJumlah.setText(total);
+        binding.updateJumlah.setText(String.valueOf(total));
         binding.updateTanggal.setText(tgl);
 
-
-        catatan = binding.updateCatatan.getText().toString();
-        total = binding.updateJumlah.getText().toString().trim();
-        tgl = binding.updateTanggal.getText().toString().trim();
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateData();
+            }
+        });
 
         setUpSpinner();
         showDatePicker();
+    }
+
+    private void updateData() {
+        catatan = binding.updateCatatan.getText().toString();
+        total = Integer.parseInt(binding.updateJumlah.getText().toString());
+        tgl = binding.updateTanggal.getText().toString().trim();
+
+        Kategori selectedKategori = (Kategori) binding.spinner.getSelectedItem();
+        int idKategori = selectedKategori.getId_kategori();
+
+        ApiClient.updateTransaksi(idTransaksi, idKategori, total, catatan, tgl, new Callback<TransaksiResponse>() {
+            @Override
+            public void onResponse(Call<TransaksiResponse> call, Response<TransaksiResponse> response) {
+                if(response.isSuccessful()){
+                    TransaksiResponse transaksiResponse = response.body();
+                    if(transaksiResponse.isSuccess() && transaksiResponse != null){
+                        new AlertDialog.Builder(UpdateTransaksiActivity.this)
+                                .setTitle("Success")
+                                .setMessage("Berhasil update transaksi")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getApplicationContext(), "Terimakasih!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).show();
+                    } else {
+                        // Tangani kesalahan respons
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setUpSpinner() {
@@ -114,11 +159,9 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
     }
 
     private int getKategoriPosition(String kategori) {
-        if (kategoriList != null && !kategoriList.isEmpty()) {
-            for (int i = 0; i < kategoriList.size(); i++) {
-                if (kategoriList.get(i).getKategori().equals(kategori)) {
-                    return i;
-                }
+        for (int i = 0; i < kategoriList.size(); i++) {
+            if (kategoriList.get(i).getKategori().equals(kategori)) {
+                return i;
             }
         }
         return -1;

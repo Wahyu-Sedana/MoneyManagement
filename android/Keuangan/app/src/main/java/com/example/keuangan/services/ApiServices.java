@@ -36,8 +36,6 @@ public interface ApiServices {
     @GET("transaksi/read.php")
     Call<TransaksiResponse> getData(
             @Query("id_user") int userId
-//            @Field("tgl_dari") String startDate,
-//            @Field("tgl_sampai") String endDate
     );
 
     @GET("transaksi/read.php")
@@ -54,6 +52,22 @@ public interface ApiServices {
             @Field("jumlah") int jumlah,
             @Field("catatan") String catatan,
             @Field("tanggal") String tanggal
+    );
+
+    @FormUrlEncoded
+    @POST("transaksi/update.php")
+    Call<TransaksiResponse> updateTransaksi(
+            @Field("id_transaksi") String idTransaksi,
+            @Field("id_kategori") int kategori,
+            @Field("jumlah") int jumlah,
+            @Field("catatan") String catatan,
+            @Field("tanggal") String tanggal
+    );
+
+    @FormUrlEncoded
+    @POST("transaksi/delete.php")
+    Call<TransaksiResponse> deleteTransaksi(
+            @Field("id_transaksi") String idTransaksi
     );
 
     @GET("kategori/read.php")

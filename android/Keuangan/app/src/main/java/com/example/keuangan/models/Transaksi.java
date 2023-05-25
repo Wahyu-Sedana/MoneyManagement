@@ -65,4 +65,14 @@ public class Transaksi {
     private String tanggal;
     private String waktu_input;
     private String jenis;
+
+    public String getId_transaksi() {
+        return id_transaksi;
+    }
+
+    public void setId_transaksi(String id_transaksi) {
+        this.id_transaksi = id_transaksi;
+    }
+
+    private String id_transaksi;
 }

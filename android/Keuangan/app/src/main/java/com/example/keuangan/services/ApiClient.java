@@ -69,6 +69,18 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
+    public static void updateTransaksi(String idTransaksi, int idKategori, int jumlah, String catatan, String tanggal, Callback<TransaksiResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<TransaksiResponse> call = apiServices.updateTransaksi(idTransaksi, idKategori, jumlah, catatan, tanggal);
+        call.enqueue(callback);
+    }
+
+    public static void deleteTransaksi(String idTransaksi, Callback<TransaksiResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<TransaksiResponse> call = apiServices.deleteTransaksi(idTransaksi);
+        call.enqueue(callback);
+    }
+
     public static void loadDataKategori(int userId, Callback<KategoriResponse> callback) {
         ApiServices apiInterface = getApiClient().create(ApiServices.class);
         Call<KategoriResponse> call = apiInterface.getDataKategori(userId);

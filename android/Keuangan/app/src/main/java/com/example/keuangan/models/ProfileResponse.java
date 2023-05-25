@@ -1,5 +1,7 @@
 package com.example.keuangan.models;
 
+import java.util.List;
+
 public class ProfileResponse {
     public boolean isSuccess() {
         return success;
@@ -25,17 +27,18 @@ public class ProfileResponse {
         this.message = message;
     }
 
-    public ProfileUser getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(ProfileUser userProfile) {
-        this.userProfile = userProfile;
-    }
 
     private boolean success;
     private boolean error;
     private String message;
 
-    private ProfileUser userProfile;
+    public List<ProfileUser> getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(List<ProfileUser> userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    private List<ProfileUser> userProfile;
 }

@@ -56,10 +56,10 @@ public class ProfileActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     ProfileResponse profileResponse = response.body();
                     if(profileResponse.isSuccess() && profileResponse.getUserProfile() != null){
-                        ProfileUser profileUser = profileResponse.getUserProfile();
-                        binding.viewNamaUsaha.setText(profileUser.getNamaUsaha());
-                        binding.viewEmail.setText(profileUser.getEmail());
-                        binding.viewAlamat.setText(profileUser.getAlamat());
+//                        ProfileUser profileUser = profileResponse.getUserProfile();
+//                        binding.viewNamaUsaha.setText(profileUser.getNamaUsaha());
+//                        binding.viewEmail.setText(profileUser.getEmail());
+//                        binding.viewAlamat.setText(profileUser.getAlamat());
                     }
                 }
             }
