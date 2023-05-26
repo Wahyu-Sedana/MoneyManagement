@@ -25,13 +25,13 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
+    private SessionManager sessionManager;
+
 
     private int userId;
     private String namaUsaha;
     private String email;
     private String alamat;
-
-    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +54,10 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if(response.isSuccessful()){
-                    ProfileResponse profileResponse = response.body();
-                    if(profileResponse.isSuccess() && profileResponse.getUserProfile() != null){
-//                        ProfileUser profileUser = profileResponse.getUserProfile();
-//                        binding.viewNamaUsaha.setText(profileUser.getNamaUsaha());
-//                        binding.viewEmail.setText(profileUser.getEmail());
-//                        binding.viewAlamat.setText(profileUser.getAlamat());
+                    List<ProfileUser> profileUsers = response.body().getUserProfile();
+                    if(profileUsers != null){
+                        Log.e("data", response.toString());
+                        binding.viewNamaUsaha.setText(String.valueOf(profileUsers.get(0).getNamaUsaha()));
                     }
                 }
             }

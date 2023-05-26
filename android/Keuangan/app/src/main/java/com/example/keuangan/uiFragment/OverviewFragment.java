@@ -1,5 +1,6 @@
 package com.example.keuangan.uiFragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import com.example.keuangan.ProfileActivity;
 import com.example.keuangan.R;
 import com.example.keuangan.RegisterActivity;
 import com.example.keuangan.adapters.TransaksiAdapter;
+import com.example.keuangan.databinding.FormDialogBinding;
 import com.example.keuangan.databinding.FragmentOverviewBinding;
 import com.example.keuangan.models.RegisterResponse;
 import com.example.keuangan.models.Transaksi;
@@ -41,6 +43,7 @@ import retrofit2.Response;
 public class OverviewFragment extends Fragment {
 
     private FragmentOverviewBinding binding;
+    private FormDialogBinding formDialogBinding;
 
     private TransaksiAdapter transaksiAdapter;
 
@@ -64,7 +67,6 @@ public class OverviewFragment extends Fragment {
         sessionManager = new SessionManager(requireActivity());
         userId = sessionManager.getUserId();
         namaUsaha = sessionManager.getNamaUsaha();
-        email = sessionManager.getEmail();
 
         binding.namaUserLogin.setText(namaUsaha);
 
@@ -86,9 +88,23 @@ public class OverviewFragment extends Fragment {
             }
         });
 
+        binding.filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFilter();
+            }
+        });
+
         loadDataCard();
 
         return binding.getRoot();
+    }
+
+    private void addFilter() {
+        formDialogBinding = FormDialogBinding.inflate(getLayoutInflater());
+
+
+
     }
 
     private void loadDataCard() {
