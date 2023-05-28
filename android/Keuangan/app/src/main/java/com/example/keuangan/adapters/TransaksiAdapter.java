@@ -85,7 +85,6 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
                         String tgl = transaksiList.get(position).getTanggal();
                         String kategori = transaksiList.get(position).getKategori();
                         String idTransaksiString = transaksiList.get(position).getId_transaksi();
-
                         Intent intent = new Intent(holder.itemView.getContext(), UpdateTransaksiActivity.class);
                         intent.putExtra("total", total);
                         intent.putExtra("catatan", catatan);
@@ -93,6 +92,8 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
                         intent.putExtra("kategori", kategori);
                         intent.putExtra("id_transaksi", idTransaksiString);
                         holder.itemView.getContext().startActivity(intent);
+
+                        Toast.makeText(holder.itemView.getContext(), idTransaksiString, Toast.LENGTH_SHORT).show();
 
                         return true;
                     }

@@ -66,6 +66,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         sessionManager = new SessionManager(this);
 
+        if (sessionManager.isLoggedIn() == false) {
+            // Jika pengguna belum login, arahkan ke halaman Login
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         // Ambil data pengguna dari SharedPrefsManager
         userId = sessionManager.getUserId();
         email = sessionManager.getEmail();

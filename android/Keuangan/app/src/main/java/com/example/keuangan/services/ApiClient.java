@@ -6,6 +6,7 @@ import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
 import com.example.keuangan.models.TransaksiResponse;
+import com.google.gson.JsonElement;
 
 import java.util.Date;
 
@@ -111,9 +112,21 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
-    public static void getDataProfile(int userId, Callback<ProfileResponse> callback) {
+    public static void getUserData(int userId, Callback<JsonElement> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<JsonElement> call = apiInterface.getDataProfile(userId);
+        call.enqueue(callback);
+    }
+
+    public static void updateProfile(int userId, String namaUsaha, String alamat, String email, String passLama, String passBaru, Callback<ProfileResponse> callback) {
+        ApiServices apiInterface = getApiClient().create(ApiServices.class);
+        Call<ProfileResponse> call = apiInterface.updateDataProfile(userId, namaUsaha, alamat, email, passLama, passBaru);
+        call.enqueue(callback);
+    }
+
+    public static void getFilterTransaksi(int userId, String tglAwal, String tglAkhir, Callback<TransaksiResponse> callback) {
         ApiServices apiServices = getApiClient().create(ApiServices.class);
-        Call<ProfileResponse> call = apiServices.getDataProfile(userId);
+        Call<TransaksiResponse> call = apiServices.readDataFilter(userId, tglAwal, tglAkhir);
         call.enqueue(callback);
     }
 }

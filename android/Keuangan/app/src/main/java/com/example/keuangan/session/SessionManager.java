@@ -9,8 +9,6 @@ public class SessionManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_NAMA_USAHA = "namaUsaha";
 
-
-
     private static final String KEY_LOGGED_IN = "isLoggedIn";
 
     private SharedPreferences sharedPreferences;
@@ -51,6 +49,11 @@ public class SessionManager {
     public void setNamaUsaha(String namaUsaha) {
         editor.putString(KEY_NAMA_USAHA, namaUsaha);
         editor.apply();
+    }
+
+    public void removeData() {
+        editor.clear();
+        editor.commit();
     }
 
     public String getNamaUsaha() {

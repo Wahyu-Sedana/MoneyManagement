@@ -38,6 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         sessionManager = new SessionManager(this);
 
+        if(sessionManager.isLoggedIn()) {
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish();
+            return;
+        }
+
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,12 +51,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        binding.lForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
-            }
-        });
+//        binding.lForgotPassword.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+//            }
+//        });
 
         binding.linkregister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,28 +88,25 @@ public class LoginActivity extends AppCompatActivity {
             valid = false;
         }  else {
             ApiClient.loginUser(email, password, new Callback<LoginResponse>() {
-
-
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         LoginResponse loginResponse = response.body();
-                        if (loginResponse.isSuccess() == true && loginResponse != null) {
-                            // Jika register berhasil, lakukan sesuatu
+                        if (loginResponse.isSuccess() && loginResponse.getData() != null) {
+                            // Jika login berhasil, simpan data pengguna dan atur status login
                             String message = loginResponse.getMessage();
                             saveUserData(loginResponse.getData());
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
                             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                         } else {
-                            // Jika register gagal, lakukan sesuatu
+                            // Jika login gagal, tampilkan pesan kesalahan
                             String message = loginResponse.getMessage();
                             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                         }
-//                    Toast.makeText(RegisterActivity.this, "berhasil", Toast.LENGTH_SHORT).show();
                     } else {
                         // Jika response gagal, lakukan sesuatu
-                        Toast.makeText(LoginActivity.this, "Failed to logim", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
                     }
                 }
 

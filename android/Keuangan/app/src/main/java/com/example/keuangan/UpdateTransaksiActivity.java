@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -77,8 +78,14 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
             }
         });
 
+        binding.updateTanggal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
+
         setUpSpinner();
-        showDatePicker();
     }
 
     private void updateData() {
@@ -153,7 +160,8 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<KategoriResponse> call, Throwable t) {
-
+                Toast.makeText(UpdateTransaksiActivity.this, "Please try again later", Toast.LENGTH_SHORT).show();
+                Log.e("error", t.getMessage(), t);
             }
         });
     }
@@ -178,7 +186,7 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // Tangkap tanggal yang dipilih
-                        String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        String selectedDate = year + "/" + (month + 1) + "/" + dayOfMonth;
 
                         // Tampilkan tanggal yang dipilih di EditText
                         binding.updateTanggal.setText(selectedDate);

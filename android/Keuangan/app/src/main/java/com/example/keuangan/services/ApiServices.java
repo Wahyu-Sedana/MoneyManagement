@@ -5,8 +5,7 @@ import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
 import com.example.keuangan.models.TransaksiResponse;
-
-import java.util.Date;
+import com.google.gson.JsonElement;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -38,13 +37,6 @@ public interface ApiServices {
             @Query("id_user") int userId
     );
 
-    @GET("transaksi/read.php")
-    Call<TransaksiResponse> getDataFilter(
-            @Query("id_user") int userId,
-            @Field("tgl_dari") String startDate,
-            @Field("tgl_sampai") String endDate
-    );
-
     @FormUrlEncoded
     @POST("transaksi/add.php")
     Call<TransaksiResponse> addTransaksi(
@@ -52,6 +44,13 @@ public interface ApiServices {
             @Field("jumlah") int jumlah,
             @Field("catatan") String catatan,
             @Field("tanggal") String tanggal
+    );
+
+    @GET("transaksi/read.php")
+    Call<TransaksiResponse> readDataFilter(
+            @Query("id_user") int id_user,
+            @Query("tgl_dari") String tglAwal,
+            @Query("tgl_akhir") String tglAkhir
     );
 
     @FormUrlEncoded
@@ -99,7 +98,18 @@ public interface ApiServices {
     );
 
     @GET("profile/read.php")
-    Call<ProfileResponse> getDataProfile(
+    Call<JsonElement> getDataProfile(
             @Query("id_user") int userId
+    );
+
+    @FormUrlEncoded
+    @POST("profile/update.php")
+    Call<ProfileResponse> updateDataProfile(
+            @Field("id_user") int userId,
+            @Field("nama_usaha") String namaUsaha,
+            @Field("alamat") String alamat,
+            @Field("email") String email,
+            @Field("password_lama") String passLama,
+            @Field("password_baru") String passBaru
     );
 }

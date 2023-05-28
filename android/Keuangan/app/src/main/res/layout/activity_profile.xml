@@ -19,69 +19,94 @@
       app:layout_constraintEnd_toEndOf="parent"
       android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#494949"
-        android:textStyle="bold"
-        android:text="Nama Usaha"/>
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
 
-    <TextView
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/updateNamaUsaha"
+          android:hint="nama usaha"
+          android:drawableEnd="@drawable/pencil"
+          android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/updateAlamat"
+          android:hint="alamat"
+          android:drawableEnd="@drawable/pencil"
+          android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/updateEmail"
+          android:hint="email"
+          android:drawableEnd="@drawable/pencil"
+          android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/updatePasswordLama"
+          android:hint="password lama"
+          android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:id="@+id/updatePasswordBaru"
+          android:hint="password baru"
+          android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#939393"
-        android:textStyle="normal"
-        android:textSize="20dp"
-        android:id="@+id/viewNamaUsaha"
-        android:text="Nama Usaha"/>
+        android:id="@+id/btnEditProfile"
+        android:text="simpan"/>
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#494949"
-        android:textStyle="bold"
-        android:text="Alamat"/>
-
-    <TextView
+    <Button
+        android:backgroundTint="@color/button_inactive_tint"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#939393"
-        android:textStyle="normal"
-        android:id="@+id/viewAlamat"
-        android:text="Nama Usaha"/>
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#494949"
-        android:textStyle="bold"
-        android:text="Email"/>
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#939393"
-        android:textStyle="normal"
-        android:id="@+id/viewEmail"
-        android:text="Nama Usaha"/>
+        android:id="@+id/btnLogout"
+        android:text="logout"/>
   </LinearLayout>
 
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/btnEditProfile"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      android:layout_margin="20dp"
-      android:backgroundTint="@color/blue_dark"
-      android:src="@drawable/pencil"
-      app:tint="@color/white"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>

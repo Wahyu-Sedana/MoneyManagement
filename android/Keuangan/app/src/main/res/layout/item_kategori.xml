@@ -21,15 +21,7 @@
             android:text="Nonton Bioskop sama Pacar"
             android:id="@+id/namaKategori"
             android:textStyle="bold"
-            android:textSize="15dp"/>
-
-        <TextView
-            android:layout_marginTop="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="19-11-2022"
-            android:id="@+id/tgl_kategori"
-            android:textSize="10dp"/>
+            android:textSize="18dp"/>
     </LinearLayout>
 
     <LinearLayout

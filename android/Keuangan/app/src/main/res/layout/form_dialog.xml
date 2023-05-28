@@ -5,13 +5,19 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="Tanggal Awal"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content">
@@ -21,17 +27,25 @@
             android:layout_height="50dp"
             android:id="@+id/tglAwal"
             android:hint="Tanggal Awal"
+            android:focusable="false"
             android:inputType="date"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tanggal Akhir"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content">
@@ -41,6 +55,7 @@
             android:layout_height="50dp"
             android:id="@+id/tglAkhir"
             android:hint="Tanggal Akhir"
+            android:focusable="false"
             android:inputType="date"/>
     </com.google.android.material.textfield.TextInputLayout>
 

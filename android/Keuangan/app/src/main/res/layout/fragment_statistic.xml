@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <!-- CardView sebagai kontainer untuk tabel -->
@@ -79,7 +80,7 @@
                 android:text="Tanggal Akhir"
                 android:textStyle="bold" />
 
-            <TextView
+            <EditText
                 android:layout_marginBottom="10dp"
                 android:textAlignment="center"
                 android:id="@+id/tglAwal"
@@ -87,17 +88,20 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:textSize="13dp"
-                android:text="01/02/2023" />
+                android:focusable="false"
+                android:hint="Tanggal Awal" />
 
             <!-- Kolom kedua: Total Pengeluaran -->
-            <TextView
+            <EditText
+                android:layout_marginBottom="10dp"
                 android:textAlignment="center"
                 android:id="@+id/tglAkhir"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:text="31/02/2023"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:focusable="false"
+                android:hint="Tanggal Akhir" />
 
         </GridLayout>
     </androidx.cardview.widget.CardView>
@@ -106,7 +110,7 @@
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selisih (Pengeluaran/Pemasukan)"
+        android:text="Selisih (Peamsukan/Pengeluaran)"
         android:textSize="13dp"
         android:textStyle="bold" />
 
@@ -118,6 +122,5 @@
         android:layout_height="wrap_content"
         android:text="Rp 0"
         android:textSize="13dp" />
-
 
 </LinearLayout>
