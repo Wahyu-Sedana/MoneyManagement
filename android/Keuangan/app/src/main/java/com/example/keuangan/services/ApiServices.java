@@ -4,6 +4,7 @@ import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
+import com.example.keuangan.models.StatistikResponse;
 import com.example.keuangan.models.TransaksiResponse;
 import com.google.gson.JsonElement;
 
@@ -112,4 +113,10 @@ public interface ApiServices {
             @Field("password_lama") String passLama,
             @Field("password_baru") String passBaru
     );
+
+    @GET("statistik.php")
+    Call<StatistikResponse> statistkData(
+            @Query("id_user") int userId
+    );
+
 }

@@ -5,6 +5,7 @@ import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
+import com.example.keuangan.models.StatistikResponse;
 import com.example.keuangan.models.TransaksiResponse;
 import com.google.gson.JsonElement;
 
@@ -127,6 +128,12 @@ public class ApiClient {
     public static void getFilterTransaksi(int userId, String tglAwal, String tglAkhir, Callback<TransaksiResponse> callback) {
         ApiServices apiServices = getApiClient().create(ApiServices.class);
         Call<TransaksiResponse> call = apiServices.readDataFilter(userId, tglAwal, tglAkhir);
+        call.enqueue(callback);
+    }
+
+    public static void getStatistik(int userId, Callback<StatistikResponse> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<StatistikResponse> call = apiServices.statistkData(userId);
         call.enqueue(callback);
     }
 }

@@ -6,20 +6,26 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.keuangan.databinding.FragmentStatisticBinding;
+import com.example.keuangan.models.StatistikResponse;
 import com.example.keuangan.models.TransaksiResponse;
 import com.example.keuangan.services.ApiClient;
 import com.example.keuangan.session.SessionManager;
 
 import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -31,7 +37,6 @@ public class StatisticFragment extends Fragment {
     private FragmentStatisticBinding binding;
     private SessionManager sessionManager;
     private int userId;
-    private String namaUsaha;
 
 
 
@@ -49,79 +54,109 @@ public class StatisticFragment extends Fragment {
         sessionManager = new SessionManager(requireActivity());
         userId = sessionManager.getUserId();
 
-        binding.tglAwal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(binding.tglAwal);
-            }
-        });
-
-        binding.tglAkhir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(binding.tglAkhir);
-            }
-        });
+        loadData();
 
         return binding.getRoot();
     }
 
-    private void loadDataCard() {
-
-        String tglAwal2 = binding.tglAwal.getText().toString();
-        String tglAkhir2 = binding.tglAkhir.getText().toString();
-        ApiClient.getFilterTransaksi(userId, tglAwal2, tglAkhir2, new Callback<TransaksiResponse>() {
+    private void loadData() {
+        ApiClient.getStatistik(userId, new Callback<StatistikResponse>() {
             @Override
-            public void onResponse(Call<TransaksiResponse> call, Response<TransaksiResponse> response) {
+            public void onResponse(Call<StatistikResponse> call, Response<StatistikResponse> response) {
                 if (response.isSuccessful()) {
-                    TransaksiResponse transaksiCard = response.body();
-                    if (transaksiCard != null && transaksiCard.isSuccess()) {
-                        // Ambil data dari TransaksiCard dan tampilkan di card di fragment
-                        int totalPemasukan = transaksiCard.getTotal_pemasukan();
-                        int totalPengeluaran = transaksiCard.getTotal_pengeluaran();
+                    StatistikResponse statisticResponse = response.body();
+                    if (statisticResponse != null && statisticResponse.isSuccess()) {
+                        List<StatistikResponse.DataPemasukan> dataPemasukanList = statisticResponse.getDataPemasukan();
+                        List<StatistikResponse.DataPengeluaran> dataPengeluaranList = statisticResponse.getDataPengeluaran();
+                        int totalPemasukan = statisticResponse.getTotal_pemasukan();
+                        int totalPengeluaran = statisticResponse.getTotal_pengeluaran();
+                        int saldo = statisticResponse.getSaldo();
 
-                        // Update tampilan card dengan data yang diambil dari respons JSON
-                        binding.totalPemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
-                        binding.totalPengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));
-                    } else {
-                        // Tampilkan pesan error jika tidak berhasil
-                        String message = transaksiCard != null ? transaksiCard.getMessage() : "Error";
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                        // Tampilkan data pemasukan dalam tabel
+                        displayDataPemasukan(dataPemasukanList);
+
+                        // Tampilkan data pengeluaran dalam tabel
+                        displayDataPengeluaran(dataPengeluaranList);
+
+                        // Tampilkan total pemasukan, pengeluaran, dan saldo
+                        binding.textTotalPemasukan.setText(formatIDR(Double.parseDouble(String.valueOf(totalPemasukan))));
+                        binding.textTotalPengeluaran.setText(formatIDR(Double.parseDouble(String.valueOf(totalPengeluaran))));
+                        binding.textSaldo.setText(formatIDR(Double.parseDouble(String.valueOf(saldo))));
                     }
-                } else {
-                    // Tampilkan pesan error jika respons tidak berhasil
-                    Toast.makeText(requireContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<TransaksiResponse> call, Throwable t) {
+            public void onFailure(Call<StatistikResponse> call, Throwable t) {
 
             }
         });
     }
 
-    private void showDatePickerDialog(final EditText inputTanggal) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                String formattedDate =  year + "/" + (month + 1) + "/" + dayOfMonth;
-                inputTanggal.setText(formattedDate);
-            }
-        }, year, month, dayOfMonth);
-
-        // Tampilkan dialog pemilih tanggal
-        datePickerDialog.show();
-    }
     private String formatIDR(double number) {
         Locale localeID = new Locale("in", "ID");
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(localeID);
         return numberFormat.format(number);
+    }
+
+    private void displayDataPemasukan(List<StatistikResponse.DataPemasukan> dataPemasukanList) {
+        if (dataPemasukanList != null) {
+            for (StatistikResponse.DataPemasukan dataPemasukan : dataPemasukanList) {
+                TableRow tableRow = new TableRow(requireContext());
+
+                TextView tvJenis = new TextView(requireContext());
+                tvJenis.setText("Pemasukan");
+                tvJenis.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvJenis);
+
+                TextView tvJumlah = new TextView(requireContext());
+                tvJumlah.setText(dataPemasukan.getJumlah());
+                tvJumlah.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvJumlah);
+
+                TextView tvCatatan = new TextView(requireContext());
+                tvCatatan.setText(dataPemasukan.getCatatan());
+                tvCatatan.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvCatatan);
+
+                TextView tvTanggal = new TextView(requireContext());
+                tvTanggal.setText(dataPemasukan.getTanggal());
+                tvTanggal.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvTanggal);
+
+                binding.tableLayout.addView(tableRow);
+            }
+        }
+    }
+
+    private void displayDataPengeluaran(List<StatistikResponse.DataPengeluaran> dataPengeluaranList) {
+        if (dataPengeluaranList != null) {
+            for (StatistikResponse.DataPengeluaran dataPengeluaran : dataPengeluaranList) {
+                TableRow tableRow = new TableRow(requireContext());
+
+                TextView tvJenis = new TextView(requireContext());
+                tvJenis.setText("Pengeluaran");
+                tvJenis.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvJenis);
+
+                TextView tvJumlah = new TextView(requireContext());
+                tvJumlah.setText(dataPengeluaran.getJumlah());
+                tvJumlah.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvJumlah);
+
+                TextView tvCatatan = new TextView(requireContext());
+                tvCatatan.setText(dataPengeluaran.getCatatan());
+                tvCatatan.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvCatatan);
+
+                TextView tvTanggal = new TextView(requireContext());
+                tvTanggal.setText(dataPengeluaran.getTanggal());
+                tvTanggal.setPadding(8, 8, 8, 8);
+                tableRow.addView(tvTanggal);
+
+                binding.tableLayout.addView(tableRow);
+            }
+        }
     }
 
 }
