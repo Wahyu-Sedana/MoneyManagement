@@ -50,7 +50,7 @@ public interface ApiServices {
     Call<TransaksiResponse> readDataFilter(
             @Query("id_user") int id_user,
             @Query("tgl_dari") String tglAwal,
-            @Query("tgl_akhir") String tglAkhir
+            @Query("tgl_sampai") String tglAkhir
     );
 
     @FormUrlEncoded

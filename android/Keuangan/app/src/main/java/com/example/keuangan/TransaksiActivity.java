@@ -41,12 +41,6 @@ public class TransaksiActivity extends AppCompatActivity {
     private List<Kategori> kategoriList;
 
     private int userId;
-    private String email;
-    private String namaUsaha;
-
-    private String alamat;
-    private String password_lama;
-    private String password_baru;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +56,6 @@ public class TransaksiActivity extends AppCompatActivity {
 
         // Ambil data pengguna dari SharedPrefsManager
         userId = sessionManager.getUserId();
-        email = sessionManager.getEmail();
-        namaUsaha = sessionManager.getNamaUsaha();
 
         binding.tTanggal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,13 +88,9 @@ public class TransaksiActivity extends AppCompatActivity {
         int idKategori = selectedKategori.getId_kategori();
         int jumlah = Integer.parseInt(binding.addJumlah.getText().toString());
         String catatan = binding.addCatatan.getText().toString();
-        Date tanggal = new Date();
+        String tanggal = binding.tTanggal.getText().toString();
 
-        // Format tanggal menjadi String menggunakan SimpleDateFormat
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String tanggalString = dateFormat.format(tanggal);
-
-        ApiClient.addTransaksi(idKategori, jumlah, catatan, tanggalString, new Callback<TransaksiResponse>() {
+        ApiClient.addTransaksi(idKategori, jumlah, catatan, tanggal, new Callback<TransaksiResponse>() {
             @Override
             public void onResponse(Call<TransaksiResponse> call, Response<TransaksiResponse> response) {
                 if (response.isSuccessful()) {
@@ -142,7 +130,7 @@ public class TransaksiActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // Tangkap tanggal yang dipilih
-                        String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
 
                         // Tampilkan tanggal yang dipilih di EditText
                         binding.tTanggal.setText(selectedDate);

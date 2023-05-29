@@ -100,7 +100,6 @@ public class OverviewFragment extends Fragment {
             }
         });
 
-        loadDataCard();
         loadDataProfile();
 
         return binding.getRoot();
@@ -189,16 +188,49 @@ public class OverviewFragment extends Fragment {
                             public void run() {
                                 // Sembunyikan ProgressBar setelah penundaan
                                 binding.progressBar.setVisibility(View.GONE);
+                                binding.textBelumAdaData.setVisibility(View.GONE);
+                                binding.listItemHistory.setVisibility(View.VISIBLE);
                                 // Update daftar transaksi pada adapter
                                 transaksiAdapter.setTransaksiList(transaksiList);
                                 transaksiAdapter.notifyDataSetChanged();
+
+                                int saldo = apiResponse.getSaldo();
+                                int totalPemasukan = apiResponse.getTotal_pemasukan();
+                                int totalPengeluaran = apiResponse.getTotal_pengeluaran();
+
+                                if (saldo < 0) {
+                                    saldo = 0;
+                                }
+
+                                // Update tampilan card dengan data yang diambil dari respons JSON
+                                binding.totalSaldo.setText(formatIDR(Double.valueOf(saldo)));
+                                binding.pemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
+                                binding.pengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));
                             }
                         }, 1000);
                     } else {
-                        binding.progressBar.setVisibility(View.GONE);
-                        binding.listItemHistory.setVisibility(View.GONE);
-                        binding.textBelumAdaData.setVisibility(View.VISIBLE);
-                        binding.textBelumAdaData.setText("Belum ada data dari tanggal " + tglAwal + " hingga tanggal " + tglAkhir);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.progressBar.setVisibility(View.GONE);
+                                binding.listItemHistory.setVisibility(View.GONE);
+                                binding.textBelumAdaData.setText("Belum ada data dari tanggal " + tglAwal + " hingga tanggal " + tglAkhir);
+                                binding.textBelumAdaData.setVisibility(View.VISIBLE);
+
+                                int saldo = apiResponse.getSaldo();
+                                int totalPemasukan = apiResponse.getTotal_pemasukan();
+                                int totalPengeluaran = apiResponse.getTotal_pengeluaran();
+
+                                if (saldo < 0) {
+                                    saldo = 0;
+                                }
+
+                                // Update tampilan card dengan data yang diambil dari respons JSON
+                                binding.totalSaldo.setText(formatIDR(Double.valueOf(saldo)));
+                                binding.pemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
+                                binding.pengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));
+                            }
+                        }, 1000);
                     }
                 } else {
                     Toast.makeText(requireContext(), "Terjadi kesalahan saat mengirim permintaan", Toast.LENGTH_SHORT).show();
@@ -223,52 +255,13 @@ public class OverviewFragment extends Fragment {
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                String formattedDate =  year + "/" + (month + 1) + "/" + dayOfMonth;
+                String formattedDate =  year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 inputTanggal.setText(formattedDate);
             }
         }, year, month, dayOfMonth);
 
         // Tampilkan dialog pemilih tanggal
         datePickerDialog.show();
-    }
-
-
-    private void loadDataCard() {
-        ApiClient.loadDataCard(userId, new Callback<TransaksiResponse>() {
-            @Override
-            public void onResponse(Call<TransaksiResponse> call, Response<TransaksiResponse> response) {
-                if (response.isSuccessful()) {
-                    TransaksiResponse transaksiCard = response.body();
-                    if (transaksiCard != null && transaksiCard.isSuccess()) {
-                        // Ambil data dari TransaksiCard dan tampilkan di card di fragment
-                        int saldo = transaksiCard.getSaldo();
-                        int totalPemasukan = transaksiCard.getTotal_pemasukan();
-                        int totalPengeluaran = transaksiCard.getTotal_pengeluaran();
-
-                        if (saldo < 0) {
-                            saldo = 0;
-                        }
-
-                        // Update tampilan card dengan data yang diambil dari respons JSON
-                        binding.totalSaldo.setText(formatIDR(Double.valueOf(saldo)));
-                        binding.pemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
-                        binding.pengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));
-                    } else {
-                        // Tampilkan pesan error jika tidak berhasil
-                        String message = transaksiCard != null ? transaksiCard.getMessage() : "Error";
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    // Tampilkan pesan error jika respons tidak berhasil
-                    Toast.makeText(requireContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TransaksiResponse> call, Throwable t) {
-
-            }
-        });
     }
 
     private String formatIDR(double number) {
@@ -297,6 +290,19 @@ public class OverviewFragment extends Fragment {
                                 // Update daftar transaksi pada adapter
                                 transaksiAdapter.setTransaksiList(transaksiList);
                                 transaksiAdapter.notifyDataSetChanged();
+
+                                int saldo = apiResponse.getSaldo();
+                                int totalPemasukan = apiResponse.getTotal_pemasukan();
+                                int totalPengeluaran = apiResponse.getTotal_pengeluaran();
+
+                                if (saldo < 0) {
+                                    saldo = 0;
+                                }
+
+                                // Update tampilan card dengan data yang diambil dari respons JSON
+                                binding.totalSaldo.setText(formatIDR(Double.valueOf(saldo)));
+                                binding.pemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
+                                binding.pengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));
                             }
                         }, 1000);
                     }else {
