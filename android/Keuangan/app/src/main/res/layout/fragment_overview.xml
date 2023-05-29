@@ -83,7 +83,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:textSize="25dp"
+                android:textSize="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Selamat Datang!"/>
@@ -91,7 +91,7 @@
             <TextView
                 android:id="@+id/namaUserLogin"
                 android:textStyle="bold"
-                android:textSize="16dp"
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="I Putu Wahyu Eka Putra Sedana"/>

@@ -2,75 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TableLayout
-        android:id="@+id/tableLayout"
+        android:id="@+id/tableLayoutPemasukan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*">
 
         <!-- Header Pemasukan -->
-        <TableRow>
-            <TextView
-                android:text="Pemasukan"
-                android:textStyle="bold"
-                android:padding="8dp" />
+        <TableRow
+            android:background="@color/blue_dark">
 
             <TextView
                 android:text="Jumlah"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="15dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
 
             <TextView
                 android:text="Catatan"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="15dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
 
             <TextView
                 android:text="Tanggal"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="15dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
         </TableRow>
 
         <!-- Data Pemasukan (Ditambahkan secara dinamis) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_table_row"
+            tools:itemCount="4"
+            android:id="@+id/rvPemasukan"/>
 
-        <!-- Header Pengeluaran -->
-        <TableRow>
-            <TextView
-                android:text="Pengeluaran"
-                android:textStyle="bold"
-                android:padding="8dp" />
+    </TableLayout>
 
-            <TextView
-                android:text="Jumlah"
-                android:textStyle="bold"
-                android:padding="8dp" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
 
-            <TextView
-                android:text="Catatan"
-                android:textStyle="bold"
-                android:padding="8dp" />
-
-            <TextView
-                android:text="Tanggal"
-                android:textStyle="bold"
-                android:padding="8dp" />
-        </TableRow>
-
-        <!-- Data Pengeluaran (Ditambahkan secara dinamis) -->
-
-        <!-- Total Pemasukan -->
         <TableRow>
             <TextView
                 android:text="Total Pemasukan:"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textAlignment="center"/>
 
             <TextView
                 android:id="@+id/textTotalPemasukan"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textAlignment="center"/>
         </TableRow>
 
         <!-- Total Pengeluaran -->
@@ -78,11 +70,13 @@
             <TextView
                 android:text="Total Pengeluaran:"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textAlignment="center"/>
 
             <TextView
                 android:id="@+id/textTotalPengeluaran"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textAlignment="center"/>
         </TableRow>
 
         <!-- Saldo -->
@@ -90,13 +84,14 @@
             <TextView
                 android:text="Saldo:"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textAlignment="center"/>
 
             <TextView
                 android:id="@+id/textSaldo"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textAlignment="center"/>
         </TableRow>
-
     </TableLayout>
 
 

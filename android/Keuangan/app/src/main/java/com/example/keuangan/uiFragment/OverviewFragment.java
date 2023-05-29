@@ -135,6 +135,7 @@ public class OverviewFragment extends Fragment {
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 // Tangani kegagalan permintaan
+                Toast.makeText(requireContext(), "Terjadi kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

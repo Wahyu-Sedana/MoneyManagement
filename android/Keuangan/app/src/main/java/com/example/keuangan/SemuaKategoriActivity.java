@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import com.example.keuangan.adapters.KategoriAdapter;
 import com.example.keuangan.databinding.ActivitySemuaKategoriBinding;
+import com.example.keuangan.models.DataPemasukan;
 import com.example.keuangan.models.Kategori;
 import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.services.ApiClient;

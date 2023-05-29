@@ -1,29 +1,30 @@
 package com.example.keuangan.uiFragment;
 
-import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.keuangan.adapters.TableAdapterPemasukan;
 import com.example.keuangan.databinding.FragmentStatisticBinding;
+import com.example.keuangan.models.DataPemasukan;
+import com.example.keuangan.models.DataPengeluaran;
 import com.example.keuangan.models.StatistikResponse;
 import com.example.keuangan.models.TransaksiResponse;
 import com.example.keuangan.services.ApiClient;
 import com.example.keuangan.session.SessionManager;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -36,6 +37,9 @@ public class StatisticFragment extends Fragment {
 
     private FragmentStatisticBinding binding;
     private SessionManager sessionManager;
+
+    private TableAdapterPemasukan tableAdapterPemasukan;
+
     private int userId;
 
 
@@ -60,23 +64,26 @@ public class StatisticFragment extends Fragment {
     }
 
     private void loadData() {
+
+        tableAdapterPemasukan = new TableAdapterPemasukan(new ArrayList<>());
+        binding.rvPemasukan.setAdapter(tableAdapterPemasukan);
+        binding.rvPemasukan.setLayoutManager(new LinearLayoutManager(requireContext()));
         ApiClient.getStatistik(userId, new Callback<StatistikResponse>() {
             @Override
             public void onResponse(Call<StatistikResponse> call, Response<StatistikResponse> response) {
                 if (response.isSuccessful()) {
                     StatistikResponse statisticResponse = response.body();
                     if (statisticResponse != null && statisticResponse.isSuccess()) {
-                        List<StatistikResponse.DataPemasukan> dataPemasukanList = statisticResponse.getDataPemasukan();
-                        List<StatistikResponse.DataPengeluaran> dataPengeluaranList = statisticResponse.getDataPengeluaran();
+                        List<DataPemasukan> dataPemasukanList = statisticResponse.getDataPemasukan();
+                        List<DataPengeluaran> dataPengeluaranList = statisticResponse.getDataPengeluaran();
                         int totalPemasukan = statisticResponse.getTotal_pemasukan();
                         int totalPengeluaran = statisticResponse.getTotal_pengeluaran();
                         int saldo = statisticResponse.getSaldo();
 
                         // Tampilkan data pemasukan dalam tabel
-                        displayDataPemasukan(dataPemasukanList);
+                        tableAdapterPemasukan.setDataPemasukanList(dataPemasukanList);
+                        tableAdapterPemasukan.notifyDataSetChanged();
 
-                        // Tampilkan data pengeluaran dalam tabel
-                        displayDataPengeluaran(dataPengeluaranList);
 
                         // Tampilkan total pemasukan, pengeluaran, dan saldo
                         binding.textTotalPemasukan.setText(formatIDR(Double.parseDouble(String.valueOf(totalPemasukan))));
@@ -88,7 +95,7 @@ public class StatisticFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StatistikResponse> call, Throwable t) {
-
+                Toast.makeText(requireContext(), "Terjadi kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -98,65 +105,4 @@ public class StatisticFragment extends Fragment {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(localeID);
         return numberFormat.format(number);
     }
-
-    private void displayDataPemasukan(List<StatistikResponse.DataPemasukan> dataPemasukanList) {
-        if (dataPemasukanList != null) {
-            for (StatistikResponse.DataPemasukan dataPemasukan : dataPemasukanList) {
-                TableRow tableRow = new TableRow(requireContext());
-
-                TextView tvJenis = new TextView(requireContext());
-                tvJenis.setText("Pemasukan");
-                tvJenis.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvJenis);
-
-                TextView tvJumlah = new TextView(requireContext());
-                tvJumlah.setText(dataPemasukan.getJumlah());
-                tvJumlah.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvJumlah);
-
-                TextView tvCatatan = new TextView(requireContext());
-                tvCatatan.setText(dataPemasukan.getCatatan());
-                tvCatatan.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvCatatan);
-
-                TextView tvTanggal = new TextView(requireContext());
-                tvTanggal.setText(dataPemasukan.getTanggal());
-                tvTanggal.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvTanggal);
-
-                binding.tableLayout.addView(tableRow);
-            }
-        }
-    }
-
-    private void displayDataPengeluaran(List<StatistikResponse.DataPengeluaran> dataPengeluaranList) {
-        if (dataPengeluaranList != null) {
-            for (StatistikResponse.DataPengeluaran dataPengeluaran : dataPengeluaranList) {
-                TableRow tableRow = new TableRow(requireContext());
-
-                TextView tvJenis = new TextView(requireContext());
-                tvJenis.setText("Pengeluaran");
-                tvJenis.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvJenis);
-
-                TextView tvJumlah = new TextView(requireContext());
-                tvJumlah.setText(dataPengeluaran.getJumlah());
-                tvJumlah.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvJumlah);
-
-                TextView tvCatatan = new TextView(requireContext());
-                tvCatatan.setText(dataPengeluaran.getCatatan());
-                tvCatatan.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvCatatan);
-
-                TextView tvTanggal = new TextView(requireContext());
-                tvTanggal.setText(dataPengeluaran.getTanggal());
-                tvTanggal.setPadding(8, 8, 8, 8);
-                tableRow.addView(tvTanggal);
-
-                binding.tableLayout.addView(tableRow);
-            }
-        }
-    }
-
 }
