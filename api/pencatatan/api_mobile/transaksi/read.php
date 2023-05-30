@@ -37,7 +37,7 @@
 			$cond.=" AND t._tanggal<= '$tgl_sampai'";
 		}
 
-		$dataqr = $db->query("SELECT k._id_jenis as id_jenis, k._kategori as kategori, t._jumlah as jumlah, t._catatan as catatan, DATE_FORMAT(t._tanggal, '%d-%m-%Y') as tanggal, DATE_FORMAT(t._waktu_insert, '%d-%m-%Y %H:%I:%s') as waktu_input 
+		$dataqr = $db->query("SELECT k._id_jenis as id_jenis, k._kategori as kategori, t._id_transaksi as id_transaksi, t._jumlah as jumlah, t._catatan as catatan, DATE_FORMAT(t._tanggal, '%d-%m-%Y') as tanggal, DATE_FORMAT(t._waktu_insert, '%d-%m-%Y %H:%I:%s') as waktu_input 
 		FROM transaksi_ t 
 		INNER JOIN kategori_ k ON t._id_kategori=k._id_kategori 
 		WHERE k._id_user='$id_user' $cond");
