@@ -114,8 +114,8 @@ public interface ApiServices {
             @Field("password_baru") String passBaru
     );
 
-    @GET("statistik.php")
-    Call<StatistikResponse> statistkData(
+    @GET("transaksi/read.php")
+    Call<TransaksiResponse> statistkData(
             @Query("id_user") int userId
     );
 

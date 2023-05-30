@@ -1,6 +1,6 @@
 package com.example.keuangan.models;
 
-public class DataPemasukan {
+public class DataItem {
     private int idJenis;
     private String jumlah;
     private String catatan;

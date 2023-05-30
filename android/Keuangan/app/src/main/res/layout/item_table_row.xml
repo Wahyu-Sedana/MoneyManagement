@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:padding="8dp">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Jumlah"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvCatatan"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="catatan"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvTanggal"
@@ -31,6 +31,6 @@
         android:text="tanggal"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

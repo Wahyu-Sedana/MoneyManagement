@@ -13,15 +13,15 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class TableAdapterPemasukan extends RecyclerView.Adapter<TableAdapterPemasukan.ViewHolder> {
+public class TableAdapterPengeluaran extends RecyclerView.Adapter<TableAdapterPengeluaran.ViewHolder> {
 
     private List<Transaksi> dataPemasukanList;
 
-    public TableAdapterPemasukan(List<Transaksi> dataPemasukanList) {
+    public TableAdapterPengeluaran(List<Transaksi> dataPemasukanList) {
         this.dataPemasukanList = dataPemasukanList;
     }
 
-    public void setDataPemasukanList(List<Transaksi> dataPemasukanList) {
+    public void serDataPengeluaranList(List<Transaksi> dataPemasukanList) {
         this.dataPemasukanList = dataPemasukanList;
     }
 

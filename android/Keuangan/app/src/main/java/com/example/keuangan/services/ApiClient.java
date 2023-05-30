@@ -131,9 +131,9 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
-    public static void getStatistik(int userId, Callback<StatistikResponse> callback) {
+    public static void getStatistik(int userId, Callback<TransaksiResponse> callback) {
         ApiServices apiServices = getApiClient().create(ApiServices.class);
-        Call<StatistikResponse> call = apiServices.statistkData(userId);
+        Call<TransaksiResponse> call = apiServices.statistkData(userId);
         call.enqueue(callback);
     }
 }
