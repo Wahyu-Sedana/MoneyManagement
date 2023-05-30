@@ -1,5 +1,7 @@
 package com.example.keuangan.models;
 
+import java.util.Date;
+
 public class Transaksi {
     public int getId_jenis() {
         return id_jenis;
@@ -63,6 +65,16 @@ public class Transaksi {
     private String jumlah;
     private String catatan;
     private String tanggal;
+
+    public Date getTanggal2() {
+        return tanggal2;
+    }
+
+    public void setTanggal2(Date tanggal2) {
+        this.tanggal2 = tanggal2;
+    }
+
+    private Date tanggal2;
     private String waktu_input;
     private String jenis;
 

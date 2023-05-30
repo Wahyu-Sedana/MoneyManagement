@@ -1,188 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".uiFragment.StatisticFragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        app:cardElevation="5dp"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:text="Pemasukan"
-                android:id="@+id/tvJenis"/>
-
-            <TableLayout
-                android:id="@+id/tableLayoutPemasukan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stretchColumns="*">
-
-                <!-- Header Pemasukan -->
-                <TableRow
-                    android:background="@color/blue_dark">
-
-                    <TextView
-                        android:text="Jumlah"
-                        android:textStyle="bold"
-                        android:padding="15dp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"/>
-
-                    <TextView
-                        android:text="Catatan"
-                        android:textStyle="bold"
-                        android:padding="15dp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"/>
-
-                    <TextView
-                        android:text="Tanggal"
-                        android:textStyle="bold"
-                        android:padding="15dp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"/>
-                </TableRow>
-
-                <!-- Data Pemasukan (Ditambahkan secara dinamis) -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    tools:listitem="@layout/item_table_row"
-                    tools:itemCount="4"
-                    android:id="@+id/rvPemasukan"/>
-
-            </TableLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        app:cardElevation="5dp"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:text="Pengeluaran" />
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stretchColumns="*">
-
-                <!-- Header Pemasukan -->
-                <TableRow
-                    android:background="@color/blue_dark">
-
-                    <TextView
-                        android:text="Jumlah"
-                        android:textStyle="bold"
-                        android:padding="15dp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"/>
-
-                    <TextView
-                        android:text="Catatan"
-                        android:textStyle="bold"
-                        android:padding="15dp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"/>
-
-                    <TextView
-                        android:text="Tanggal"
-                        android:textStyle="bold"
-                        android:padding="15dp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"/>
-                </TableRow>
-
-                <!-- Data Pemasukan (Ditambahkan secara dinamis) -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    tools:listitem="@layout/item_table_row"
-                    tools:itemCount="4"
-                    android:id="@+id/rvPengeluaran"/>
-
-            </TableLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <ProgressBar
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardElevation="5dp">
+        android:visibility="gone"/>
 
-        <TableLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1">
+            android:orientation="vertical">
 
-            <TableRow>
-                <TextView
-                    android:text="Total Pemasukan:"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:textAlignment="center"/>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textTotalPemasukan"
-                    android:padding="8dp" />
-            </TableRow>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_marginEnd="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <!-- Total Pengeluaran -->
-            <TableRow>
-                <TextView
-                    android:text="Total Pengeluaran:"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:textAlignment="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Pemasukan"/>
 
-                <TextView
-                    android:id="@+id/textTotalPengeluaran"
-                    android:padding="8dp" />
-            </TableRow>
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/viewPemasukan"
+                        android:textColor="@color/green"
+                        android:textSize="13dp"
+                        android:text="0"/>
+                </LinearLayout>
 
-            <!-- Saldo -->
-            <TableRow>
-                <TextView
-                    android:text="Saldo:"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:textAlignment="center"/>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_marginStart="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textSaldo"
-                    android:padding="8dp" />
-            </TableRow>
-        </TableLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Pengeluaran"/>
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/viewPengeluaran"
+                        android:textColor="@color/red"
+                        android:textSize="13dp"
+                        android:text="0"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_marginEnd="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:text="Tanggal Awal"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/viewTanggalAwal"
+                        android:hint="Tanggal Awal"
+                        android:focusable="false"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_marginStart="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:text="Tanggal Akhir"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/viewTglAkhir"
+                        android:hint="Tanggal Akhir"
+                        android:focusable="false"
+                        android:textSize="13dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btnFilterStatistik"
+                android:text="filter"/>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <com.github.mikephil.charting.charts.PieChart
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/pieChart"/>
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

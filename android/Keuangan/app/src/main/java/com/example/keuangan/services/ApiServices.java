@@ -4,10 +4,10 @@ import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
-import com.example.keuangan.models.StatistikResponse;
 import com.example.keuangan.models.TransaksiResponse;
 import com.google.gson.JsonElement;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -116,6 +116,11 @@ public interface ApiServices {
 
     @GET("transaksi/read.php")
     Call<TransaksiResponse> statistkData(
+            @Query("id_user") int userId
+    );
+
+    @GET("laporan_excel.php")
+    Call<ResponseBody> laporanExcel(
             @Query("id_user") int userId
     );
 

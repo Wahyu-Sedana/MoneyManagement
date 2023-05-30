@@ -1,17 +1,14 @@
 package com.example.keuangan.services;
 
-import com.example.keuangan.models.Kategori;
 import com.example.keuangan.models.KategoriResponse;
 import com.example.keuangan.models.LoginResponse;
 import com.example.keuangan.models.ProfileResponse;
 import com.example.keuangan.models.RegisterResponse;
-import com.example.keuangan.models.StatistikResponse;
 import com.example.keuangan.models.TransaksiResponse;
 import com.google.gson.JsonElement;
 
-import java.util.Date;
-
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static final String BASE_URL = "http://10.0.2.2/pencatatan/api_mobile/";
+    private static final String BASE_URL_KOMPUTER = "http://192.168.1.74/pencatatan/api_mobile/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getApiClient() {
@@ -33,7 +31,7 @@ public class ApiClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(BASE_URL_KOMPUTER)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -134,6 +132,12 @@ public class ApiClient {
     public static void getStatistik(int userId, Callback<TransaksiResponse> callback) {
         ApiServices apiServices = getApiClient().create(ApiServices.class);
         Call<TransaksiResponse> call = apiServices.statistkData(userId);
+        call.enqueue(callback);
+    }
+
+    public static void downloadExcel(int userId, Callback<ResponseBody> callback) {
+        ApiServices apiServices = getApiClient().create(ApiServices.class);
+        Call<ResponseBody> call = apiServices.laporanExcel(userId);
         call.enqueue(callback);
     }
 }

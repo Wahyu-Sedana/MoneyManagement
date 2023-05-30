@@ -6,14 +6,14 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
+    <item
+        android:id="@+id/navigation_laporan"
+        android:icon="@drawable/baseline_menu_book_24"
+        android:title="Laporan" />
 
     <item
-        android:id="@+id/navigation_tambahData"
-        android:title="" />
-
-    <item
-        android:id="@+id/navigation_statistic"
+        android:id="@+id/navigation_stastistik"
         android:icon="@drawable/statistic"
-        android:title="Statistic" />
+        android:title="Statistik" />
 
 </menu>

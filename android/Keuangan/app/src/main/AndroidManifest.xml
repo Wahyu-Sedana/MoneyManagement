@@ -26,9 +26,6 @@
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".TambahTransaksiActivity"
-            android:exported="false" />
-        <activity
             android:name=".SemuaKategoriActivity"
             android:exported="false">
             <meta-data
@@ -80,5 +77,10 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
 </manifest>

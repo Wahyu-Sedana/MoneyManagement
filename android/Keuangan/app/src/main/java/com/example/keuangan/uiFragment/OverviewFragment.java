@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.example.keuangan.HomeActivity;
 import com.example.keuangan.ProfileActivity;
 import com.example.keuangan.R;
 import com.example.keuangan.RegisterActivity;
@@ -90,6 +91,13 @@ public class OverviewFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(requireActivity(), TransaksiActivity.class));
             }
         });
 

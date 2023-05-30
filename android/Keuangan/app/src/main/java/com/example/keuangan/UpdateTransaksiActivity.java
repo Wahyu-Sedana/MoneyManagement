@@ -186,7 +186,7 @@ public class UpdateTransaksiActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // Tangkap tanggal yang dipilih
-                        String selectedDate = year + "/" + (month + 1) + "/" + dayOfMonth;
+                        String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
 
                         // Tampilkan tanggal yang dipilih di EditText
                         binding.updateTanggal.setText(selectedDate);
