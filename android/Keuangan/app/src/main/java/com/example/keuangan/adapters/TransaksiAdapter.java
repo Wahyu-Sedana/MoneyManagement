@@ -25,7 +25,9 @@ import com.example.keuangan.models.TransaksiResponse;
 import com.example.keuangan.services.ApiClient;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,7 +83,6 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        SimpleDateFormat tanggalFormat = new SimpleDateFormat("y-M-d", Locale.getDefault());
                         // Aksi ketika item Edit dipilih
                         int total = Integer.parseInt(transaksiList.get(position).getJumlah());
                         String catatan = transaksiList.get(position).getCatatan();
@@ -91,7 +92,17 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
                         Intent intent = new Intent(holder.itemView.getContext(), UpdateTransaksiActivity.class);
                         intent.putExtra("total", total);
                         intent.putExtra("catatan", catatan);
-                        intent.putExtra("tgl", tgl);
+                        try {
+                            SimpleDateFormat inputDateFormat = new SimpleDateFormat("d-M-y", Locale.getDefault());
+                            Date date = inputDateFormat.parse(tgl);
+
+                            SimpleDateFormat outputDateFormat = new SimpleDateFormat("y-M-d", Locale.getDefault());
+                            String formattedDate = outputDateFormat.format(date);
+
+                            intent.putExtra("tgl", formattedDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         intent.putExtra("kategori", kategori);
                         intent.putExtra("id_transaksi", idTransaksiString);
                         holder.itemView.getContext().startActivity(intent);
