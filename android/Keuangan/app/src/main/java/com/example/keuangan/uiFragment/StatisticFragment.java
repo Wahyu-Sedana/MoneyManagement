@@ -121,6 +121,7 @@ public class StatisticFragment extends Fragment {
                             public void run() {
                                 // Sembunyikan ProgressBar setelah penundaan
                                 binding.progressBar.setVisibility(View.GONE);
+                                binding.pieChart.setVisibility(View.VISIBLE);
 
                                 int totalPemasukan = apiResponse.getTotal_pemasukan();
                                 int totalPengeluaran = apiResponse.getTotal_pengeluaran();
@@ -159,12 +160,13 @@ public class StatisticFragment extends Fragment {
                             @Override
                             public void run() {
                                 binding.progressBar.setVisibility(View.GONE);
+                                binding.pieChart.setVisibility(View.GONE);
 
                                 int totalPemasukan = apiResponse.getTotal_pemasukan();
                                 int totalPengeluaran = apiResponse.getTotal_pengeluaran();
 
                                 // Update tampilan card dengan data yang diambil dari respons JSON
-                                binding.viewPengeluaran.setText(formatIDR(Double.valueOf(totalPemasukan)));
+                                binding.viewPemasukan.setText(formatIDR(Double.valueOf(totalPemasukan)));
                                 binding.viewPengeluaran.setText(formatIDR(Double.valueOf(totalPengeluaran)));
                             }
                         }, 1000);

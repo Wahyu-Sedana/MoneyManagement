@@ -25,6 +25,7 @@ import com.example.keuangan.models.TransaksiResponse;
 import com.example.keuangan.services.ApiClient;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -79,6 +80,8 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
                 editItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
+
+                        SimpleDateFormat tanggalFormat = new SimpleDateFormat("y-M-d", Locale.getDefault());
                         // Aksi ketika item Edit dipilih
                         int total = Integer.parseInt(transaksiList.get(position).getJumlah());
                         String catatan = transaksiList.get(position).getCatatan();

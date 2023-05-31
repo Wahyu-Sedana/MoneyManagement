@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static final String BASE_URL = "http://10.0.2.2/pencatatan/api_mobile/";
-    private static final String BASE_URL_KOMPUTER = "http://192.168.1.74/pencatatan/api_mobile/";
+    private static final String BASE_URL_KOMPUTER = "http://ipadd/pencatatan/api_mobile/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getApiClient() {
@@ -31,7 +31,7 @@ public class ApiClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL_KOMPUTER)
+                    .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

@@ -1,10 +1,15 @@
 package com.example.keuangan.uiFragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -29,7 +34,10 @@ import com.example.keuangan.session.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -53,6 +61,8 @@ public class LaporanFragment extends Fragment {
 
     private int userId;
 
+    private static final int REQUEST_WRITE_STORAGE = 112;
+
 
 
     @Override
@@ -65,6 +75,13 @@ public class LaporanFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLaporanBinding.inflate(inflater, container, false);
+
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+        }
+
 
         sessionManager = new SessionManager(requireActivity());
         userId = sessionManager.getUserId();
@@ -85,56 +102,6 @@ public class LaporanFragment extends Fragment {
                 addFilter();
             }
         });
-
-        binding.fabDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(requireActivity())
-                        .setTitle("Success")
-                        .setMessage("Apakah anda ingin mengunduh data ini?")
-                        .setCancelable(true)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ApiClient.downloadExcel(userId, new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()) {
-                                            ResponseBody responseBody = response.body();
-                                            if (responseBody != null) {
-                                                try {
-                                                    // Simpan file Excel ke penyimpanan eksternal
-                                                    String fileName = "laporan_labarugi.xlsx"; // Ganti dengan nama file yang diinginkan
-                                                    File outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-                                                    FileUtils.saveResponseBodyToDisk(responseBody, outputFile);
-
-
-                                                    Toast.makeText(requireActivity(), "File Excel berhasil diunduh", Toast.LENGTH_SHORT).show();
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                    // Handle error saat menyimpan file Excel
-                                                    Toast.makeText(requireActivity(), "Gagal Menyimpan File", Toast.LENGTH_SHORT).show();
-                                                }
-                                            } else {
-                                                // ResponseBody kosong, tangani error jika diperlukan
-                                                Toast.makeText(requireActivity(), "Coba lagi!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        } else {
-                                            // Handle error respons HTTP jika diperlukan
-                                            Toast.makeText(requireActivity(), "Server Error", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                    }
-                                });
-                            }
-                        }).show();
-            }
-        });
-
 
         loadData();
 
@@ -221,6 +188,13 @@ public class LaporanFragment extends Fragment {
                         tableAdapterPengeluaran.serDataPengeluaranList(filterTransaksiPengeluaran);
                         tableAdapterPemasukan.notifyDataSetChanged();
                         tableAdapterPengeluaran.notifyDataSetChanged();
+
+                        binding.fabDownload.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                downloadExcelFile();
+                            }
+                        });
                     }
                 }
             }
@@ -231,6 +205,81 @@ public class LaporanFragment extends Fragment {
             }
         });
     }
+
+    private void downloadExcelFile() {
+        ApiClient.downloadExcel(userId, new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+                    if (writtenToDisk) {
+                        Toast.makeText(requireActivity(), "File Excel berhasil diunduh", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(requireActivity(), "Gagal menyimpan file", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(requireActivity(), "Gagal mengunduh file", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+            File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File outputFile = new File(storageDir, "laporan_labarugi.xls");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(outputFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                }
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadExcelFile();
+            } else {
+                Toast.makeText(requireContext(), "Izin ditolak. File tidak dapat diunduh.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     private String formatIDR(double number) {
         Locale localeID = new Locale("in", "ID");
